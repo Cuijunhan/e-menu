@@ -1,0 +1,84 @@
+<!--pages/index/index.wxml-->
+<view class="page">
+
+  <!-- 主内容区：左侧分类 + 右侧菜品 -->
+  <view class="main">
+
+    <!-- 左侧分类栏 -->
+    <scroll-view class="cat-sidebar" scroll-y>
+      <view
+        class="cat-item {{activeCategoryId === null ? 'active' : ''}}"
+        bindtap="onCategoryTap"
+        data-id="{{null}}"
+      >全部</view>
+      <view
+        wx:for="{{categories}}"
+        wx:key="id"
+        class="cat-item {{activeCategoryId === item.id ? 'active' : ''}}"
+        bindtap="onCategoryTap"
+        data-id="{{item.id}}"
+      >{{item.name}}</view>
+    </scroll-view>
+
+    <!-- 右侧菜品列表 -->
+    <scroll-view class="dish-scroll" scroll-y>
+      <view
+        wx:for="{{dishes}}"
+        wx:key="id"
+        class="dish-card"
+      >
+        <view class="dish-img-placeholder">
+          <text class="dish-emoji">🍽</text>
+        </view>
+        <view class="dish-info">
+          <text class="dish-name">{{item.name}}</text>
+          <text class="dish-desc">{{item.description}}</text>
+          <view class="dish-bottom">
+            <text class="dish-price">¥{{item.price}}</text>
+            <view class="qty-ctrl">
+              <view
+                wx:if="{{dishQuantities[item.id] > 0}}"
+                class="qty-btn minus"
+                bindtap="onRemoveTap"
+                data-dish="{{item}}"
+              >-</view>
+              <text
+                wx:if="{{dishQuantities[item.id] > 0}}"
+                class="qty-num"
+              >{{dishQuantities[item.id]}}</text>
+              <view
+                class="qty-btn add"
+                bindtap="onAddTap"
+                data-dish="{{item}}"
+              >+</view>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <view wx:if="{{dishes.length === 0}}" class="empty-tip">
+        <text>暂无菜品</text>
+      </view>
+      <view style="height: 140rpx;"></view>
+    </scroll-view>
+
+  </view>
+
+  <!-- 底部购物车栏 -->
+  <view class="cart-bar" bindtap="goToCart">
+    <view class="cart-left">
+      <view class="cart-icon-wrap">
+        <text class="cart-icon">🛒</text>
+        <view wx:if="{{cartCount > 0}}" class="cart-badge">{{cartCount}}</view>
+      </view>
+      <text class="cart-label">{{cartCount > 0 ? '购物车' : '未选商品'}}</text>
+    </view>
+    <view class="cart-right">
+      <text wx:if="{{cartCount > 0}}" class="cart-total">¥{{cartTotal}}</text>
+      <view class="cart-btn {{cartCount > 0 ? 'enabled' : ''}}">
+        <text>去结算</text>
+      </view>
+    </view>
+  </view>
+
+</view>

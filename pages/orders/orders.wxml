@@ -1,0 +1,50 @@
+<!--pages/orders/orders.wxml-->
+<view class="page">
+
+  <!-- 加载中 -->
+  <view wx:if="{{loading}}" class="loading">
+    <text>加载中...</text>
+  </view>
+
+  <!-- 空订单 -->
+  <view wx:elif="{{orders.length === 0}}" class="empty">
+    <text class="empty-icon">📋</text>
+    <text class="empty-text">还没有订单</text>
+  </view>
+
+  <!-- 订单列表 -->
+  <view wx:else class="order-list">
+    <view wx:for="{{orders}}" wx:key="id" class="order-card">
+
+      <!-- 订单头部 -->
+      <view class="order-header">
+        <text class="order-id">订单 #{{item.id}}</text>
+        <text class="order-status {{item.status === '已完成' ? 'done' : 'pending'}}">
+          {{item.status}}
+        </text>
+      </view>
+
+      <!-- 菜品清单 -->
+      <view class="order-items">
+        <view
+          wx:for="{{item.items}}"
+          wx:for-item="dish"
+          wx:key="dish_id"
+          class="order-item-row"
+        >
+          <text class="dish-name">{{dish.dish_name}}</text>
+          <text class="dish-qty">x{{dish.quantity}}</text>
+          <text class="dish-price">¥{{dish.price}}</text>
+        </view>
+      </view>
+
+      <!-- 订单底部 -->
+      <view class="order-footer">
+        <text class="order-time">{{item.create_time}}</text>
+        <text class="order-total">合计 ¥{{item.total_price}}</text>
+      </view>
+
+    </view>
+  </view>
+
+</view>

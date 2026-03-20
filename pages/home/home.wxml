@@ -1,0 +1,43 @@
+<!--pages/home/home.wxml-->
+<view class="page">
+
+  <!-- 顶部 Banner -->
+  <view class="banner">
+    <view class="banner-content">
+      <text class="banner-title">家庭厨房</text>
+      <text class="banner-sub">今天想吃什么？</text>
+    </view>
+    <text class="banner-emoji">🍳</text>
+  </view>
+
+  <!-- 快捷入口 -->
+  <view class="actions">
+    <view class="action-card" bindtap="goToOrder">
+      <text class="action-icon">🍽</text>
+      <text class="action-text">立即点餐</text>
+    </view>
+    <view class="action-card" bindtap="goToOrders">
+      <text class="action-icon">📋</text>
+      <text class="action-text">我的订单</text>
+    </view>
+  </view>
+
+  <!-- 今日推荐 -->
+  <view class="section">
+    <text class="section-title">今日推荐</text>
+    <view wx:for="{{dishes}}" wx:key="id" class="rec-card" bindtap="goToOrder">
+      <view class="rec-img">
+        <text class="rec-emoji">🍽</text>
+      </view>
+      <view class="rec-info">
+        <text class="rec-name">{{item.name}}</text>
+        <text class="rec-desc">{{item.description}}</text>
+      </view>
+      <text class="rec-price">¥{{item.price}}</text>
+    </view>
+    <view wx:if="{{dishes.length === 0}}" class="empty-rec">
+      <text>暂无菜品，请先在后端添加菜品</text>
+    </view>
+  </view>
+
+</view>
