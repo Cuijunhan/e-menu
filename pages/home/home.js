@@ -19,6 +19,10 @@ Page({
     wx.switchTab({ url: '/pages/index/index' });
   },
 
+  goToRandom() {
+    wx.navigateTo({ url: '/pages/random/random' });
+  },
+
   goToOrders() {
     wx.navigateTo({ url: '/pages/orders/orders' });
   },

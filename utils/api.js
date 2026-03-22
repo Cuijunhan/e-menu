@@ -30,6 +30,7 @@ module.exports = {
     const path = categoryId ? `/dishes?category_id=${categoryId}` : "/dishes";
     return request("GET", path);
   },
+  getRandomDishes: (count = 5) => request("GET", `/dishes/random?count=${count}`),
   createOrder: (payload) => request("POST", "/orders", payload),
   getOrders: (userId) => request("GET", `/orders?user_id=${userId}`),
 };

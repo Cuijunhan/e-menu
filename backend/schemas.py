@@ -10,14 +10,18 @@ class CategoryOut(BaseModel):
     model_config = {"from_attributes": True}
 
 
+class CategoryCreate(BaseModel):
+    name: str
+
+
 # ---- Dish ----
 class DishOut(BaseModel):
     id: int
     name: str
     price: float
     category_id: int
-    image: str
-    description: str
+    image: Optional[str] = ""
+    description: Optional[str] = ""
     model_config = {"from_attributes": True}
 
 

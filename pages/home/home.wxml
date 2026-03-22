@@ -16,6 +16,10 @@
       <text class="action-icon">🍽</text>
       <text class="action-text">立即点餐</text>
     </view>
+    <view class="action-card action-card--random" bindtap="goToRandom">
+      <text class="action-icon">🎲</text>
+      <text class="action-text">随便</text>
+    </view>
     <view class="action-card" bindtap="goToOrders">
       <text class="action-icon">📋</text>
       <text class="action-text">我的订单</text>

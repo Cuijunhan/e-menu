@@ -1,8 +1,11 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from database import engine, Base, SessionLocal
 from models import Category, Dish, User
 from routers import categories, dishes, orders
+import os
 
 # 创建所有表
 Base.metadata.create_all(bind=engine)
@@ -20,6 +23,15 @@ app.add_middleware(
 app.include_router(categories.router)
 app.include_router(dishes.router)
 app.include_router(orders.router)
+
+# 挂载静态文件
+static_dir = os.path.join(os.path.dirname(__file__), "static")
+app.mount("/static", StaticFiles(directory=static_dir), name="static")
+
+
+@app.get("/admin", include_in_schema=False)
+def admin_page():
+    return FileResponse(os.path.join(static_dir, "admin.html"))
 
 
 def seed():
