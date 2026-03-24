@@ -13,17 +13,44 @@ Page({
   },
 
   onShow() {
+    // 如果首页预选了分类（如"咖啡"/"酒"），自动切换过去
+    if (this.data.categories.length > 0) {
+      const pre = wx.getStorageSync('preSelectCategory');
+      if (pre !== undefined && pre !== null) {
+        wx.removeStorageSync('preSelectCategory');
+        if (pre === '') {
+          this.loadDishes(null);
+        } else {
+          const match = this.data.categories.find(c => c.name && c.name.includes(pre));
+          this.loadDishes(match ? match.id : null);
+        }
+        return;
+      }
+    }
     this.refreshCart();
   },
 
   onLoad() {
     this.loadCategories();
-    this.loadDishes(null);
   },
 
   async loadCategories() {
     const cats = await api.getCategories();
     this.setData({ categories: cats });
+
+    // 首次加载时检查预选分类
+    const pre = wx.getStorageSync('preSelectCategory');
+    if (pre !== undefined && pre !== null) {
+      wx.removeStorageSync('preSelectCategory');
+      if (pre === '') {
+        this.loadDishes(null);
+      } else {
+        const match = cats.find(c => c.name && c.name.includes(pre));
+        this.loadDishes(match ? match.id : null);
+      }
+    } else {
+      this.loadDishes(null);
+    }
   },
 
   async loadDishes(categoryId) {
