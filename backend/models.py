@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Float, ForeignKey, DateTime
+from sqlalchemy import Column, Integer, String, Float, ForeignKey, DateTime, Text
 from sqlalchemy.orm import relationship
 from datetime import datetime
 from database import Base
@@ -50,3 +50,15 @@ class OrderItem(Base):
     price = Column(Float, nullable=False)
     order = relationship("Order", back_populates="items")
     dish = relationship("Dish")
+
+
+class Reservation(Base):
+    __tablename__ = "reservation"
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("user.id"))
+    dish_name = Column(String, nullable=False)        # 想吃的菜名
+    link = Column(String, default="")                 # 抖音/小红书链接（可选）
+    note = Column(Text, default="")                   # 备注
+    status = Column(String, default="待处理")          # 待处理 / 已处理
+    create_time = Column(DateTime, default=datetime.now)
+    user = relationship("User")

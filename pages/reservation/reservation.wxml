@@ -1,0 +1,73 @@
+<!--pages/reservation/reservation.wxml-->
+<view class="page">
+
+  <!-- 提交表单 -->
+  <view class="card form-card">
+    <view class="card-title">想吃什么？告诉我 🍽️</view>
+
+    <view class="field">
+      <text class="label">菜名 <text class="required">*</text></text>
+      <input
+        class="input"
+        placeholder="输入想吃的菜名，例如：红烧排骨"
+        value="{{dishName}}"
+        bindinput="onDishNameInput"
+        maxlength="50"
+      />
+    </view>
+
+    <view class="field">
+      <text class="label">参考链接（可选）</text>
+      <input
+        class="input"
+        placeholder="粘贴抖音 / 小红书链接"
+        value="{{link}}"
+        bindinput="onLinkInput"
+        maxlength="500"
+      />
+      <text class="hint">支持抖音、小红书等视频/帖子链接</text>
+    </view>
+
+    <view class="field">
+      <text class="label">备注（可选）</text>
+      <textarea
+        class="textarea"
+        placeholder="有什么特别要求？比如：不要香菜、少辣..."
+        value="{{note}}"
+        bindinput="onNoteInput"
+        maxlength="200"
+        auto-height
+      />
+    </view>
+
+    <button class="btn-submit" bindtap="submit" disabled="{{submitting}}">
+      {{submitting ? '提交中...' : '提交预约'}}
+    </button>
+  </view>
+
+  <!-- 历史预约列表 -->
+  <view class="section-title">我的预约记录</view>
+
+  <view wx:if="{{list.length === 0}}" class="empty">还没有预约记录</view>
+
+  <view wx:for="{{list}}" wx:key="id" class="card item-card">
+    <view class="item-row">
+      <text class="dish-name">{{item.dish_name}}</text>
+      <view class="status {{item.status === '已处理' ? 'done' : 'pending'}}">
+        {{item.status}}
+      </view>
+    </view>
+
+    <view wx:if="{{item.link}}" class="item-link">
+      <text class="link-label">链接：</text>
+      <text class="link-text" bindtap="copyLink" data-link="{{item.link}}">
+        {{item.link.length > 30 ? item.link.substring(0,30)+'...' : item.link}}
+      </text>
+    </view>
+
+    <view wx:if="{{item.note}}" class="item-note">备注：{{item.note}}</view>
+
+    <view class="item-time">{{item.create_time}}</view>
+  </view>
+
+</view>

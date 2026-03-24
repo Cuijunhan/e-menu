@@ -33,4 +33,7 @@ module.exports = {
   getRandomDishes: (count = 5) => request("GET", `/dishes/random?count=${count}`),
   createOrder: (payload) => request("POST", "/orders", payload),
   getOrders: (userId) => request("GET", `/orders?user_id=${userId}`),
+  // 预约
+  createReservation: (payload) => request("POST", "/reservations", payload),
+  getReservations: (userId) => request("GET", `/reservations?user_id=${userId}`),
 };

@@ -4,7 +4,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from database import engine, Base, SessionLocal
 from models import Category, Dish, User
-from routers import categories, dishes, orders
+from routers import categories, dishes, orders, reservations
 import os
 
 # 创建所有表
@@ -23,6 +23,7 @@ app.add_middleware(
 app.include_router(categories.router)
 app.include_router(dishes.router)
 app.include_router(orders.router)
+app.include_router(reservations.router)
 
 # 挂载静态文件
 static_dir = os.path.join(os.path.dirname(__file__), "static")

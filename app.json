@@ -5,7 +5,8 @@
     "pages/cart/cart",
     "pages/orders/orders",
     "pages/profile/profile",
-    "pages/random/random"
+    "pages/random/random",
+    "pages/reservation/reservation"
   ],
   "window": {
     "backgroundTextStyle": "light",

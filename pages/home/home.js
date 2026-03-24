@@ -29,4 +29,9 @@ Page({
   goToHistory() {
     wx.navigateTo({ url: '/pages/orders/orders' });
   },
+
+  // 想吃什么预约页
+  goToReservation() {
+    wx.navigateTo({ url: '/pages/reservation/reservation' });
+  },
 });

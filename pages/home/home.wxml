@@ -42,7 +42,7 @@
       </view>
     </view>
 
-    <!-- 第二行：随机推荐 历史订单 -->
+    <!-- 第二行：随机推荐 历史订单 想吃什么 -->
     <view class="grid-row">
       <view class="grid-card" bindtap="goToRandom">
         <image class="grid-img" src="/images/icon-random.png" mode="aspectFit"/>
@@ -51,6 +51,10 @@
       <view class="grid-card" bindtap="goToHistory">
         <image class="grid-img" src="/images/icon-history.png" mode="aspectFit"/>
         <text class="grid-label">历史订单</text>
+      </view>
+      <view class="grid-card" bindtap="goToReservation">
+        <image class="grid-img" src="/images/icon-wish.png" mode="aspectFit"/>
+        <text class="grid-label">想吃什么</text>
       </view>
     </view>
 

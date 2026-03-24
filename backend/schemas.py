@@ -69,3 +69,22 @@ class UserOut(BaseModel):
     openid: str
     balance: float
     model_config = {"from_attributes": True}
+
+
+# ---- Reservation ----
+class ReservationCreate(BaseModel):
+    user_id: int
+    dish_name: str
+    link: Optional[str] = ""
+    note: Optional[str] = ""
+
+
+class ReservationOut(BaseModel):
+    id: int
+    user_id: int
+    dish_name: str
+    link: Optional[str] = ""
+    note: Optional[str] = ""
+    status: str
+    create_time: datetime
+    model_config = {"from_attributes": True}
