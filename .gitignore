@@ -11,3 +11,6 @@ project.private.config.json
 
 # Claude 本地配置
 .claude/settings.local.json
+
+# UI参考文件（文件名过长）
+ref_ui/

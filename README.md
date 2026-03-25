@@ -23,11 +23,22 @@ python main.py
 启动成功后终端会显示：
 
 ```
-INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
 ✅ 示例数据初始化完成
 ```
 
 > 首次启动会自动创建 `menu.db` 数据库，并写入示例菜品数据。
+
+**局域网访问配置：**
+
+后端服务监听 `0.0.0.0:8000`，支持局域网内其他设备访问。小程序需配置本机IP地址：
+
+```js
+// utils/api.js
+const BASE_URL = "http://192.168.1.172:8000";  // 替换为你的本机IP
+```
+
+获取本机IP：Windows 运行 `ipconfig`，macOS/Linux 运行 `ifconfig`。
 
 ### 3. 验证运行
 

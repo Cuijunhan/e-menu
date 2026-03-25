@@ -1,5 +1,5 @@
 // utils/api.js - 统一封装后端请求
-const BASE_URL = "http://localhost:8000";
+const BASE_URL = "http://192.168.1.172:8000";
 
 function request(method, path, data) {
   return new Promise((resolve, reject) => {
