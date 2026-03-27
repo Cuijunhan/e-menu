@@ -20,9 +20,14 @@
     <text class="loading-text">正在随机...</text>
   </view>
 
+  <!-- 空状态提示 -->
+  <view wx:elif="{{showEmptyTip}}" class="empty-tip">
+    <text class="tip-text">{{emptyTipText}}</text>
+  </view>
+
   <!-- 菜品列表 -->
   <view wx:else class="dish-list">
-    <view wx:for="{{dishes}}" wx:key="id" class="dish-card">
+    <view wx:for="{{dishes}}" wx:key="id" class="dish-card {{item.removing ? 'removing' : ''}} {{item['removing-bounce'] ? 'removing-bounce' : ''}} {{item['removing-explode'] ? 'removing-explode' : ''}}">
       <view class="dish-icon">
         <text class="icon-emoji">🍽</text>
       </view>
@@ -30,15 +35,15 @@
         <text class="dish-name">{{item.name}}</text>
         <text class="dish-desc">{{item.description}}</text>
       </view>
-      <view class="dish-right">
-        <text class="dish-price">¥{{item.price}}</text>
-        <view class="cart-control">
-          <text wx:if="{{item.count > 0}}" class="btn-minus" catchtap="decreaseCart" data-id="{{item.id}}">-</text>
-          <text wx:if="{{item.count > 0}}" class="count-text">{{item.count}}</text>
-          <text class="btn-plus" catchtap="addToCart" data-id="{{item.id}}" data-name="{{item.name}}" data-price="{{item.price}}">+</text>
-        </view>
+      <view class="cart-control">
+        <text class="btn-plus" catchtap="addToCart" data-id="{{item.id}}" data-name="{{item.name}}" data-price="{{item.price}}">+</text>
       </view>
     </view>
+  </view>
+
+  <!-- 购物车图标 -->
+  <view class="cart-icon {{cartBlink ? 'blink' : ''}}" bindtap="goToCart">
+    🧺
   </view>
 
   <!-- 底部操作区 -->
