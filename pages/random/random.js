@@ -4,10 +4,8 @@ const app = getApp();
 
 Page({
   data: {
-    dishes: [],       // 当前随机菜单（带 cartQty 字段）
+    dishes: [],
     loading: false,
-    cartCount: 0,
-    cartTotal: '0.00',
   },
 
   onLoad() {
@@ -22,8 +20,7 @@ Page({
     this.setData({ loading: true });
     try {
       const dishes = await api.getRandomDishes(5);
-      // 补充每道菜在购物车中的数量
-      this.setData({ dishes: this._withCartQty(dishes) });
+      this.setData({ dishes: this._withCartCount(dishes) });
     } catch (e) {
       wx.showToast({ title: '加载失败', icon: 'error' });
     } finally {
@@ -32,33 +29,29 @@ Page({
     }
   },
 
-  // 为菜品列表注入购物车数量
-  _withCartQty(dishes) {
+  _withCartCount(dishes) {
     const cart = app.globalData.cart;
     return dishes.map(d => {
       const item = cart.find(c => c.dish.id === d.id);
-      return { ...d, cartQty: item ? item.quantity : 0 };
+      return { ...d, count: item ? item.quantity : 0 };
     });
   },
 
-  // 同步购物车汇总数据到页面
   _syncCart() {
     this.setData({
-      cartCount: app.getCartCount(),
-      cartTotal: app.getCartTotal(),
-      dishes: this._withCartQty(this.data.dishes),
+      dishes: this._withCartCount(this.data.dishes),
     });
   },
 
-  onAdd(e) {
-    const dish = e.currentTarget.dataset.dish;
-    app.addToCart(dish);
+  addToCart(e) {
+    const { id, name, price } = e.currentTarget.dataset;
+    app.addToCart({ id, name, price });
     this._syncCart();
   },
 
-  onRemove(e) {
-    const dishId = e.currentTarget.dataset.id;
-    app.removeFromCart(dishId);
+  decreaseCart(e) {
+    const id = e.currentTarget.dataset.id;
+    app.removeFromCart(id);
     this._syncCart();
   },
 

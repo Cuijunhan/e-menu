@@ -13,6 +13,9 @@ Page({
   },
 
   onShow() {
+    if (typeof this.getTabBar === 'function' && this.getTabBar()) {
+      this.getTabBar().setData({ selected: 1 });
+    }
     // 如果首页预选了分类（如"咖啡"/"酒"），自动切换过去
     if (this.data.categories.length > 0) {
       const pre = wx.getStorageSync('preSelectCategory');

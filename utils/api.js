@@ -25,6 +25,7 @@ function request(method, path, data) {
 }
 
 module.exports = {
+  getBanners: () => request("GET", "/banners"),
   getCategories: () => request("GET", "/categories"),
   getDishes: (categoryId) => {
     const path = categoryId ? `/dishes?category_id=${categoryId}` : "/dishes";
@@ -33,7 +34,10 @@ module.exports = {
   getRandomDishes: (count = 5) => request("GET", `/dishes/random?count=${count}`),
   createOrder: (payload) => request("POST", "/orders", payload),
   getOrders: (userId) => request("GET", `/orders?user_id=${userId}`),
+  deleteOrder: (id) => request("DELETE", `/orders/${id}`),
   // 预约
   createReservation: (payload) => request("POST", "/reservations", payload),
   getReservations: (userId) => request("GET", `/reservations?user_id=${userId}`),
+  updateReservation: (id, payload) => request("PUT", `/reservations/${id}`, payload),
+  deleteReservation: (id) => request("DELETE", `/reservations/${id}`),
 };

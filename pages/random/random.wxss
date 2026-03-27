@@ -1,29 +1,70 @@
 /* pages/random/random.wxss */
 
 .page {
-  background: #f5f5f5;
+  background: #f9f9f9;
   min-height: 100vh;
-  padding-bottom: 240rpx;
+  padding-top: 200rpx;
+  padding-bottom: 400rpx;
 }
 
-/* 顶部 */
+/* 顶部导航栏 */
 .header {
-  background: linear-gradient(135deg, #6C5CE7, #A29BFE);
-  padding: 60rpx 40rpx 50rpx;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 128rpx;
+  background: rgba(249, 249, 249, 0.85);
+  backdrop-filter: blur(40rpx);
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 48rpx;
+  padding-top: 72rpx;
+  z-index: 100;
+}
+
+.header-left,
+.header-right {
+  flex: 1;
 }
 
 .header-title {
-  font-size: 44rpx;
-  font-weight: bold;
-  color: #fff;
+  font-size: 36rpx;
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: 6rpx;
+  color: #2d3435;
+  text-align: center;
 }
 
-.header-sub {
-  font-size: 26rpx;
-  color: rgba(255,255,255,0.8);
-  margin-top: 10rpx;
+/* 页面标题 */
+.page-header {
+  padding: 48rpx 48rpx 32rpx;
+}
+
+.page-label {
+  font-size: 20rpx;
+  letter-spacing: 8rpx;
+  color: #757c7d;
+  display: block;
+  margin-bottom: 16rpx;
+}
+
+.page-title {
+  font-size: 80rpx;
+  line-height: 1.2;
+  letter-spacing: -2rpx;
+  color: #2d3435;
+  display: block;
+}
+
+.divider {
+  width: 96rpx;
+  height: 2rpx;
+  background: #5f5e5e;
+  margin-top: 32rpx;
+  opacity: 0.3;
 }
 
 /* 加载中 */
@@ -31,7 +72,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 120rpx 0;
+  padding: 200rpx 0;
 }
 
 .loading-spin {
@@ -45,173 +86,191 @@
 }
 
 .loading-text {
-  margin-top: 24rpx;
-  font-size: 28rpx;
-  color: #999;
+  margin-top: 48rpx;
+  font-size: 24rpx;
+  color: #acb3b4;
+  letter-spacing: 2rpx;
 }
 
 /* 菜品列表 */
 .dish-list {
-  padding: 24rpx 30rpx 0;
+  padding: 0 48rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 48rpx;
 }
 
 .dish-card {
-  background: #fff;
-  border-radius: 20rpx;
-  padding: 28rpx 24rpx;
-  margin-bottom: 20rpx;
+  background: #ffffff;
+  border-radius: 24rpx;
+  padding: 48rpx;
   display: flex;
-  align-items: center;
-  box-shadow: 0 4rpx 16rpx rgba(0,0,0,0.06);
+  align-items: flex-start;
+  justify-content: space-between;
+  transition: all 0.5s;
 }
 
-.dish-img {
-  width: 110rpx;
-  height: 110rpx;
-  border-radius: 16rpx;
-  background: #F0EDFF;
+.dish-card:active {
+  background: #f2f4f4;
+}
+
+.dish-icon {
+  width: 128rpx;
+  height: 128rpx;
+  border-radius: 50%;
+  background: #f2f4f4;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
 }
 
-.dish-emoji {
-  font-size: 52rpx;
+.icon-emoji {
+  font-size: 72rpx;
+  opacity: 0.6;
 }
 
 .dish-info {
   flex: 1;
-  padding: 0 20rpx;
+  padding: 0 40rpx;
   display: flex;
   flex-direction: column;
-  gap: 6rpx;
+  gap: 8rpx;
 }
 
 .dish-name {
-  font-size: 30rpx;
-  font-weight: bold;
-  color: #333;
+  font-size: 40rpx;
+  color: #2d3435;
+  line-height: 1.3;
 }
 
 .dish-desc {
-  font-size: 22rpx;
-  color: #999;
+  font-size: 20rpx;
+  color: #757c7d;
+  font-style: italic;
+  font-weight: 300;
 }
 
 .dish-price {
-  font-size: 30rpx;
-  font-weight: bold;
-  color: #FF6B35;
-  margin-top: 4rpx;
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #5f5e5e;
+  margin-bottom: 16rpx;
 }
 
-/* 数量控制 */
-.qty-ctrl {
+.dish-right {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cart-control {
   display: flex;
   align-items: center;
-  gap: 12rpx;
-  flex-shrink: 0;
+  gap: 16rpx;
 }
 
-.btn-add,
-.btn-minus {
-  width: 60rpx;
-  height: 60rpx;
+.btn-minus,
+.btn-plus {
+  width: 48rpx;
+  height: 48rpx;
+  border: 1rpx solid #596061;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 36rpx;
-  font-weight: bold;
+  font-size: 32rpx;
+  color: #596061;
   line-height: 1;
 }
 
-.btn-add {
-  background: #FF6B35;
-  color: #fff;
-}
-
-.btn-minus {
-  background: #fff;
-  color: #FF6B35;
-  border: 2rpx solid #FF6B35;
-}
-
-.qty-num {
-  font-size: 30rpx;
-  font-weight: bold;
-  color: #333;
-  min-width: 32rpx;
+.count-text {
+  font-size: 28rpx;
+  color: #2d3435;
+  min-width: 40rpx;
   text-align: center;
 }
 
-/* 底部 */
+/* 底部操作区 */
 .footer {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 20rpx 30rpx;
-  padding-bottom: calc(20rpx + env(safe-area-inset-bottom));
-  background: #f5f5f5;
+  padding: 32rpx 48rpx 80rpx;
+  background: #f9f9f9;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  z-index: 100;
+}
+
+.action-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24rpx;
+}
+
+.btn-random {
+  position: relative;
+  background: transparent;
+  border: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   gap: 16rpx;
 }
 
-.btn-again {
-  background: linear-gradient(135deg, #6C5CE7, #A29BFE);
-  color: #fff;
-  border: none;
-  border-radius: 50rpx;
-  font-size: 30rpx;
-  font-weight: bold;
-  padding: 24rpx 0;
-  text-align: center;
-}
-
-.btn-again::after {
-  border: none;
-}
-
-/* 购物车结算栏 */
-.cart-bar {
-  background: #333;
-  border-radius: 50rpx;
-  padding: 20rpx 30rpx;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.cart-left {
-  display: flex;
-  align-items: center;
-  gap: 20rpx;
-}
-
-.cart-badge {
-  background: #FF6B35;
-  color: #fff;
+.btn-random::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 240rpx;
+  height: 240rpx;
+  background: rgba(95, 94, 94, 0.05);
   border-radius: 50%;
-  width: 48rpx;
-  height: 48rpx;
-  font-size: 24rpx;
-  font-weight: bold;
+  filter: blur(80rpx);
+}
+
+.btn-random::after {
+  border: none;
+}
+
+.btn-icon {
+  position: relative;
+  width: 160rpx;
+  height: 160rpx;
+  background: #ffffff;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 80rpx;
+  box-shadow: 0 8rpx 80rpx rgba(45, 52, 53, 0.04);
+  border: 2rpx solid rgba(172, 179, 180, 0.1);
+  transition: all 0.3s;
 }
 
-.cart-total {
-  font-size: 30rpx;
-  font-weight: bold;
-  color: #fff;
+.btn-random:active .btn-icon {
+  transform: scale(0.95);
 }
 
-.cart-checkout {
-  font-size: 28rpx;
-  color: #FF6B35;
-  font-weight: bold;
+.btn-text {
+  font-size: 24rpx;
+  letter-spacing: 6rpx;
+  color: #596061;
+  font-weight: 500;
+}
+
+.footer-note {
+  font-size: 20rpx;
+  color: #757c7d;
+  text-align: center;
+  line-height: 1.6;
+  letter-spacing: 4rpx;
+  max-width: 400rpx;
 }

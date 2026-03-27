@@ -1,5 +1,13 @@
 <!--pages/index/index.wxml-->
 <view class="page">
+  <!-- 顶部导航栏 -->
+  <view class="header">
+    <view class="header-left"></view>
+    <text class="header-title">THE CURATED</text>
+    <view class="header-right">
+      <text class="cart-icon-small">🛒</text>
+    </view>
+  </view>
 
   <!-- 主内容区：左侧分类 + 右侧菜品 -->
   <view class="main">

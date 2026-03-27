@@ -1,7 +1,18 @@
-from sqlalchemy import Column, Integer, String, Float, ForeignKey, DateTime, Text
+from sqlalchemy import Column, Integer, String, Float, ForeignKey, DateTime, Text, Boolean
 from sqlalchemy.orm import relationship
 from datetime import datetime
 from database import Base
+
+
+class Banner(Base):
+    __tablename__ = "banner"
+    id = Column(Integer, primary_key=True, index=True)
+    image = Column(String, nullable=False)
+    title = Column(String, default="")
+    link = Column(String, default="")
+    sort_order = Column(Integer, default=0)
+    is_active = Column(Boolean, default=True)
+    is_default = Column(Boolean, default=False)
 
 
 class Category(Base):

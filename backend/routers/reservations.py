@@ -46,6 +46,22 @@ def mark_done(reservation_id: int, db: Session = Depends(get_db)):
     return r
 
 
+@router.put("/{reservation_id}", response_model=ReservationOut)
+def update_reservation(reservation_id: int, body: ReservationCreate, db: Session = Depends(get_db)):
+    """修改预约"""
+    r = db.query(Reservation).filter(Reservation.id == reservation_id).first()
+    if not r:
+        raise HTTPException(status_code=404, detail="预约不存在")
+    if r.status == "已处理":
+        raise HTTPException(status_code=400, detail="已处理的预约无法修改")
+    r.dish_name = body.dish_name.strip()
+    r.link = body.link or ""
+    r.note = body.note or ""
+    db.commit()
+    db.refresh(r)
+    return r
+
+
 @router.delete("/{reservation_id}")
 def delete_reservation(reservation_id: int, db: Session = Depends(get_db)):
     """删除预约"""

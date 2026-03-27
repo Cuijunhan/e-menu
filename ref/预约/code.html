@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+
+<html class="light" lang="zh-CN"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Curated Request - Kanso Ethos</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&amp;family=Manrope:wght@200;300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "tertiary-container": "#fdf2e2",
+              "surface-variant": "#dde4e5",
+              "on-surface-variant": "#596061",
+              "tertiary-dim": "#595246",
+              "on-error-container": "#752121",
+              "on-secondary-fixed-variant": "#5b5b5c",
+              "error-container": "#fe8983",
+              "tertiary-fixed-dim": "#efe4d4",
+              "outline": "#757c7d",
+              "secondary-fixed-dim": "#d5d4d4",
+              "secondary-fixed": "#e3e2e2",
+              "on-primary": "#faf7f6",
+              "secondary-container": "#e3e2e2",
+              "on-surface": "#2d3435",
+              "error": "#9f403d",
+              "on-tertiary-container": "#625b4f",
+              "primary-fixed": "#e4e2e1",
+              "surface-container-lowest": "#ffffff",
+              "background": "#f9f9f9",
+              "surface-container-high": "#e4e9ea",
+              "secondary-dim": "#525353",
+              "primary": "#5f5e5e",
+              "inverse-primary": "#ffffff",
+              "on-secondary-container": "#515252",
+              "on-tertiary-fixed-variant": "#6d6559",
+              "inverse-on-surface": "#9c9d9d",
+              "on-tertiary-fixed": "#4f493d",
+              "error-dim": "#4e0309",
+              "surface-tint": "#5f5e5e",
+              "surface-dim": "#d3dbdd",
+              "on-tertiary": "#fff8f0",
+              "on-primary-container": "#525251",
+              "tertiary": "#655e52",
+              "outline-variant": "#acb3b4",
+              "surface-container": "#ebeeef",
+              "surface": "#f9f9f9",
+              "tertiary-fixed": "#fdf2e2",
+              "surface-container-highest": "#dde4e5",
+              "surface-bright": "#f9f9f9",
+              "on-secondary-fixed": "#3e3f40",
+              "on-primary-fixed-variant": "#5c5b5b",
+              "secondary": "#5e5f5f",
+              "primary-dim": "#535252",
+              "inverse-surface": "#0c0f0f",
+              "primary-container": "#e4e2e1",
+              "surface-container-low": "#f2f4f4",
+              "on-background": "#2d3435",
+              "on-secondary": "#faf8f8",
+              "primary-fixed-dim": "#d6d4d3",
+              "on-primary-fixed": "#3f3f3f",
+              "on-error": "#fff7f6"
+            },
+            fontFamily: {
+              "headline": ["Noto Serif SC", "serif"],
+              "body": ["Manrope", "sans-serif"],
+              "label": ["Manrope", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 200, 'GRAD' 0, 'opsz' 24;
+        display: inline-block;
+        vertical-align: middle;
+      }
+      body {
+        background-color: #f9f9f9;
+        color: #2d3435;
+        font-family: 'Manrope', sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+      .serif-display {
+        font-family: 'Noto Serif SC', serif;
+      }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background min-h-screen pb-32">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-white/85 dark:bg-stone-900/85 backdrop-blur-xl">
+<div class="flex items-center justify-between px-6 h-16 w-full max-w-screen-xl mx-auto">
+<button class="text-stone-600 dark:text-stone-400 hover:opacity-70 transition-opacity scale-95 duration-200">
+<span class="material-symbols-outlined" data-icon="close">close</span>
+</button>
+<h1 class="font-serif text-2xl tracking-tight text-stone-800 dark:text-stone-100">Curated Request</h1>
+<div class="w-6"></div> <!-- Spacer for centering -->
+</div>
+</header>
+<main class="pt-32 px-8 max-w-lg mx-auto">
+<!-- Hero Section -->
+<section class="mb-12">
+<div class="flex items-baseline gap-2 mb-4">
+<h2 class="serif-display text-4xl font-light tracking-tight text-on-background leading-tight">
+                    想吃什么？<br/>告诉我
+                </h2>
+<span class="material-symbols-outlined text-primary text-3xl opacity-60" data-icon="restaurant">restaurant</span>
+</div>
+<p class="font-body text-sm text-on-surface-variant/70 tracking-wide">
+                您的私人定制，每一道菜都是一次艺术的策展。
+            </p>
+</section>
+<!-- Form Section -->
+<form class="space-y-10 mb-20">
+<!-- Dish Name -->
+<div class="space-y-3">
+<label class="font-body text-xs uppercase tracking-[0.2em] text-on-surface-variant font-semibold">菜名 *</label>
+<input class="w-full bg-transparent border-0 border-b border-outline/30 focus:ring-0 focus:border-primary px-0 py-3 font-body text-lg placeholder:text-outline-variant/50 transition-colors" placeholder="输入想吃的菜名，例如：红烧排骨" type="text"/>
+</div>
+<!-- Reference Link -->
+<div class="space-y-3">
+<label class="font-body text-xs uppercase tracking-[0.2em] text-on-surface-variant font-semibold">参考链接 (可选)</label>
+<input class="w-full bg-transparent border-0 border-b border-outline/30 focus:ring-0 focus:border-primary px-0 py-3 font-body text-lg placeholder:text-outline-variant/50 transition-colors" placeholder="粘贴抖音 / 小红书链接" type="url"/>
+</div>
+<!-- Notes -->
+<div class="space-y-3">
+<label class="font-body text-xs uppercase tracking-[0.2em] text-on-surface-variant font-semibold">备注 (可选)</label>
+<textarea class="w-full bg-transparent border-0 border-b border-outline/30 focus:ring-0 focus:border-primary px-0 py-3 font-body text-lg placeholder:text-outline-variant/50 resize-none transition-colors" placeholder="有什么特别要求？比如：不要香菜、少辣..." rows="3"></textarea>
+</div>
+<!-- Submit Button -->
+<div class="pt-6">
+<button class="w-full py-5 bg-primary text-on-primary rounded-full font-body font-medium tracking-widest text-sm hover:opacity-90 transition-all active:scale-[0.98] shadow-sm" type="submit">
+                    提交预约
+                </button>
+</div>
+</form>
+<!-- History Section -->
+<section class="mt-24">
+<h3 class="serif-display text-xl mb-8 text-on-background border-b border-outline-variant/10 pb-4">我的预约记录</h3>
+<div class="space-y-6">
+<!-- Record Item 1 -->
+<div class="bg-surface-container-low p-6 rounded-lg transition-all hover:bg-surface-container-lowest">
+<div class="flex justify-between items-start mb-4">
+<h4 class="serif-display text-xl text-on-background">红烧排骨</h4>
+<span class="px-3 py-1 bg-tertiary-fixed text-on-tertiary-fixed text-[10px] tracking-widest uppercase rounded-full font-bold">待处理</span>
+</div>
+<div class="flex justify-between items-center text-on-surface-variant/60 text-xs font-body tracking-wider">
+<span>2023年10月24日</span>
+<span class="material-symbols-outlined text-sm" data-icon="chevron_right">chevron_right</span>
+</div>
+</div>
+<!-- Record Item 2 -->
+<div class="bg-surface-container-low p-6 rounded-lg transition-all hover:bg-surface-container-lowest">
+<div class="flex justify-between items-start mb-4">
+<h4 class="serif-display text-xl text-on-background">清蒸鲈鱼</h4>
+<span class="px-3 py-1 bg-surface-container-highest text-on-surface-variant text-[10px] tracking-widest uppercase rounded-full font-bold">已完成</span>
+</div>
+<div class="flex justify-between items-center text-on-surface-variant/60 text-xs font-body tracking-wider">
+<span>2023年10月18日</span>
+<span class="material-symbols-outlined text-sm" data-icon="chevron_right">chevron_right</span>
+</div>
+</div>
+<!-- Empty State Aesthetic Filler -->
+<div class="pt-12 flex flex-col items-center opacity-20">
+<div class="w-px h-12 bg-on-background mb-4"></div>
+<span class="serif-display italic text-sm">Fin.</span>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 h-20 bg-white/85 dark:bg-stone-900/85 backdrop-blur-xl z-50 shadow-[0_-4px_40px_rgba(45,52,53,0.04)] bg-stone-50 dark:bg-stone-800/30">
+<!-- Taste (Active) -->
+<a class="flex flex-col items-center justify-center text-stone-900 dark:text-stone-50 font-semibold bg-stone-100 dark:bg-stone-800 rounded-full px-4 py-1 transition-all duration-300 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="restaurant" style="font-variation-settings: 'FILL' 1;">restaurant</span>
+<span class="font-sans text-[10px] uppercase tracking-widest font-light mt-0.5">Taste</span>
+</a>
+<!-- Discover -->
+<a class="flex flex-col items-center justify-center text-stone-400 dark:text-stone-500 px-4 py-1 hover:text-stone-600 dark:hover:text-stone-300 transition-all duration-300 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="explore">explore</span>
+<span class="font-sans text-[10px] uppercase tracking-widest font-light mt-0.5">Discover</span>
+</a>
+<!-- Cart -->
+<a class="flex flex-col items-center justify-center text-stone-400 dark:text-stone-500 px-4 py-1 hover:text-stone-600 dark:hover:text-stone-300 transition-all duration-300 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="shopping_bag">shopping_bag</span>
+<span class="font-sans text-[10px] uppercase tracking-widest font-light mt-0.5">Cart</span>
+</a>
+<!-- Identity -->
+<a class="flex flex-col items-center justify-center text-stone-400 dark:text-stone-500 px-4 py-1 hover:text-stone-600 dark:hover:text-stone-300 transition-all duration-300 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-sans text-[10px] uppercase tracking-widest font-light mt-0.5">Identity</span>
+</a>
+</nav>
+</body></html>

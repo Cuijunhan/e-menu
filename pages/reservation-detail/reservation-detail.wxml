@@ -1,0 +1,31 @@
+<view class="page">
+  <view wx:if="{{!detail}}" class="loading">加载中...</view>
+
+  <view wx:else class="detail">
+    <view class="status-badge {{detail.status === '已处理' ? 'done' : 'pending'}}">
+      {{detail.status === '已处理' ? '已完成' : '待处理'}}
+    </view>
+
+    <view class="field">
+      <text class="label">菜名 *</text>
+      <input class="input" value="{{dishName}}" bindinput="onDishNameInput" disabled="{{detail.status === '已处理'}}" placeholder="输入菜名" />
+    </view>
+
+    <view class="field">
+      <text class="label">参考链接 (可选)</text>
+      <input class="input" value="{{link}}" bindinput="onLinkInput" disabled="{{detail.status === '已处理'}}" placeholder="粘贴链接" />
+    </view>
+
+    <view class="field">
+      <text class="label">备注 (可选)</text>
+      <textarea class="textarea" value="{{note}}" bindinput="onNoteInput" disabled="{{detail.status === '已处理'}}" placeholder="备注信息" rows="3" />
+    </view>
+
+    <view class="time">创建时间：{{detail.create_time}}</view>
+
+    <view wx:if="{{detail.status === '待处理'}}" class="actions">
+      <button class="btn-save" bindtap="save">保存修改</button>
+      <button class="btn-delete" bindtap="deleteItem">删除预约</button>
+    </view>
+  </view>
+</view>
