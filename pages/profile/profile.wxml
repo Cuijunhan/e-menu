@@ -1,19 +1,29 @@
 <!--pages/profile/profile.wxml-->
 <view class="page">
-  <!-- 顶部导航栏 -->
-  <view class="header">
-    <view class="header-left"></view>
-    <text class="header-title">THE CURATED</text>
-    <view class="header-right"></view>
+  <!-- 授权引导页 -->
+  <view wx:if="{{!hasAuth}}" class="auth-guide">
+    <view class="auth-content">
+      <text class="auth-title">欢迎使用</text>
+      <text class="auth-desc">请完善您的个人信息</text>
+      <button class="auth-btn" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar">
+        选择头像
+      </button>
+    </view>
   </view>
 
   <!-- 用户信息区 -->
-  <view class="user-section">
-    <view class="avatar">
-      <text class="avatar-emoji">👤</text>
+  <view wx:else class="user-section">
+    <button wx:if="{{!avatarUrl}}" class="avatar-btn" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar">
+      <view class="avatar">
+        <text class="avatar-emoji">👤</text>
+      </view>
+    </button>
+    <view wx:else class="avatar">
+      <image class="avatar-img" src="{{avatarUrl}}" mode="aspectFill" />
     </view>
     <view class="user-info">
-      <text class="user-name">家庭用户</text>
+      <input wx:if="{{!nickName || nickName === '家庭用户'}}" class="user-name-input" type="nickname" placeholder="点击输入昵称" bindblur="onNicknameBlur" />
+      <text wx:else class="user-name">{{nickName}}</text>
       <text class="user-label">MEMBER SINCE MMXXIII</text>
     </view>
   </view>
@@ -21,14 +31,17 @@
   <!-- 统计卡片 -->
   <view class="stats-grid">
     <view class="stat-card">
-      <text class="stat-label">MY POINTS</text>
-      <text class="stat-value">1,240</text>
+      <text class="stat-label">余额</text>
+      <text class="stat-value">¥{{balance}}</text>
     </view>
-    <view class="stat-card">
-      <text class="stat-label">COUPONS</text>
+    <view class="stat-card" bindtap="onCouponTap">
+      <text class="stat-label">兑换券</text>
       <text class="stat-value">03</text>
     </view>
   </view>
+
+  <!-- 提示信息 -->
+  <view wx:if="{{showToast}}" class="toast-msg">{{toastMsg}}</view>
 
   <!-- 菜单列表 -->
   <view class="menu-section">
@@ -36,13 +49,18 @@
     <view class="menu-group">
       <view class="menu-item" bindtap="goToOrders">
         <text class="menu-icon">📋</text>
-        <text class="menu-text">My Orders</text>
+        <text class="menu-text">历史订单</text>
         <text class="menu-arrow">›</text>
       </view>
       <view class="menu-item" bindtap="goToCart">
         <text class="menu-icon">🛒</text>
-        <text class="menu-text">Shopping Cart</text>
+        <text class="menu-text">购物车</text>
         <view wx:if="{{cartCount > 0}}" class="badge">{{cartCount}}</view>
+        <text class="menu-arrow">›</text>
+      </view>
+      <view class="menu-item" bindtap="onRecharge">
+        <text class="menu-icon">💰</text>
+        <text class="menu-text">充值</text>
         <text class="menu-arrow">›</text>
       </view>
     </view>

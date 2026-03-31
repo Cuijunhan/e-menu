@@ -3,43 +3,13 @@
 .page {
   background: #f9f9f9;
   min-height: 100vh;
-  padding-top: 128rpx;
+  padding-top: 50rpx;
   padding-bottom: 160rpx;
-}
-
-/* 顶部导航栏 */
-.header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 128rpx;
-  background: rgba(249, 249, 249, 0.85);
-  backdrop-filter: blur(20rpx);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 48rpx;
-  z-index: 100;
-}
-
-.header-left,
-.header-right {
-  flex: 1;
-}
-
-.header-title {
-  font-size: 36rpx;
-  font-weight: 400;
-  font-style: italic;
-  letter-spacing: 6rpx;
-  color: #2d3435;
-  text-align: center;
 }
 
 /* 用户信息区 */
 .user-section {
-  padding: 96rpx 48rpx 64rpx;
+  padding: 90rpx 48rpx 64rpx;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -56,6 +26,12 @@
   margin-bottom: 48rpx;
   border: 2rpx solid rgba(172, 179, 180, 0.1);
   box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.02);
+}
+
+.avatar-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
 }
 
 .avatar-emoji {
@@ -176,4 +152,85 @@
 .menu-arrow {
   font-size: 40rpx;
   color: rgba(172, 179, 180, 0.4);
+}
+
+/* 提示信息 */
+.toast-msg {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(45, 52, 53, 0.9);
+  color: #fff;
+  padding: 32rpx 64rpx;
+  border-radius: 16rpx;
+  font-size: 28rpx;
+  z-index: 1000;
+}
+
+/* 头像按钮 */
+.avatar-btn {
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  border: none;
+  margin-bottom: 48rpx;
+}
+
+.avatar-btn::after {
+  border: none;
+}
+
+/* 昵称输入框 */
+.user-name-input {
+  font-size: 56rpx;
+  font-weight: 300;
+  color: #2d3435;
+  line-height: 1.2;
+  margin-bottom: 16rpx;
+}
+
+/* 授权引导页 */
+.auth-guide {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #f9f9f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.auth-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 48rpx;
+}
+
+.auth-title {
+  font-size: 64rpx;
+  font-weight: 300;
+  color: #2d3435;
+}
+
+.auth-desc {
+  font-size: 28rpx;
+  color: #757c7d;
+}
+
+.auth-btn {
+  background: #5f5e5e;
+  color: #faf7f6;
+  padding: 32rpx 96rpx;
+  border-radius: 48rpx;
+  font-size: 28rpx;
+  border: none;
+}
+
+.auth-btn::after {
+  border: none;
 }
