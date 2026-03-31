@@ -15,10 +15,20 @@ class Banner(Base):
     is_default = Column(Boolean, default=False)
 
 
+class MainCategory(Base):
+    __tablename__ = "main_category"
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String, nullable=False)  # 饭菜、咖啡、酒
+    code = Column(String, unique=True, nullable=False)  # food, coffee, wine
+    categories = relationship("Category", back_populates="main_category")
+
+
 class Category(Base):
     __tablename__ = "category"
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, nullable=False)
+    main_category_id = Column(Integer, ForeignKey("main_category.id"))
+    main_category = relationship("MainCategory", back_populates="categories")
     dishes = relationship("Dish", back_populates="category")
 
 
@@ -30,6 +40,8 @@ class Dish(Base):
     category_id = Column(Integer, ForeignKey("category.id"))
     image = Column(String, default="")
     description = Column(String, default="")
+    ingredients = Column(Text, default="")  # 食材
+    instructions = Column(Text, default="")  # 做法
     category = relationship("Category", back_populates="dishes")
 
 

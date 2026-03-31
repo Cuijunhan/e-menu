@@ -20,6 +20,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 0 48rpx;
+  padding-top: 72rpx;
   z-index: 100;
 }
 
@@ -57,11 +58,32 @@
 
 /* 左侧分类栏 */
 .cat-sidebar {
-  width: 192rpx;
+  width: 160rpx;
   height: 100%;
   background: #ebeeef;
   flex-shrink: 0;
   padding-top: 96rpx;
+}
+
+.main-cat-item {
+  padding: 32rpx 16rpx;
+  font-size: 24rpx;
+  color: #596061;
+  text-align: center;
+  font-weight: 700;
+  letter-spacing: 2rpx;
+  transition: all 0.3s;
+}
+
+.main-cat-item.active {
+  color: #2d3435;
+  background: rgba(95, 94, 94, 0.1);
+}
+
+.cat-divider {
+  height: 1rpx;
+  background: #dde4e5;
+  margin: 24rpx 16rpx;
 }
 
 .cat-item {
@@ -88,7 +110,7 @@
   flex: 1;
   height: 100%;
   background: #f9f9f9;
-  padding: 64rpx 64rpx 200rpx;
+  padding: 80rpx 24rpx 400rpx 32rpx;
 }
 
 .dish-card {
@@ -100,6 +122,7 @@
   overflow: hidden;
   box-shadow: 0 4rpx 40rpx rgba(45, 52, 53, 0.04);
   transition: all 0.3s;
+  height: 240rpx;
 }
 
 .dish-img-placeholder {
@@ -204,10 +227,10 @@
 /* 底部购物车栏 */
 .cart-bar {
   position: fixed;
-  bottom: 64rpx;
+  bottom: 180rpx;
   left: 50%;
   transform: translateX(-50%);
-  width: 90%;
+  width: 85%;
   max-width: 900rpx;
   height: 128rpx;
   background: rgba(255, 255, 255, 0.9);
@@ -221,6 +244,13 @@
   z-index: 100;
   box-shadow: 0 20rpx 80rpx rgba(0, 0, 0, 0.06);
   border: 1rpx solid rgba(172, 179, 180, 0.1);
+  transition: transform 0.3s, opacity 0.3s;
+}
+
+.cart-bar.hidden {
+  transform: translateX(-50%) translateY(100rpx);
+  opacity: 0;
+  pointer-events: none;
 }
 
 .cart-left {
@@ -285,4 +315,71 @@
 .cart-btn.enabled {
   background: #5f5e5e;
   color: #faf7f6;
+}
+
+/* 菜品详情弹窗 */
+.dish-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dish-modal-content {
+  width: 85%;
+  max-height: 70vh;
+  background: #ffffff;
+  border-radius: 24rpx;
+  overflow: hidden;
+}
+
+.modal-header {
+  padding: 48rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1rpx solid #ebeeef;
+}
+
+.modal-title {
+  font-size: 40rpx;
+  font-weight: 700;
+  color: #2d3435;
+}
+
+.modal-close {
+  font-size: 64rpx;
+  color: #acb3b4;
+  line-height: 1;
+}
+
+.modal-body {
+  max-height: 50vh;
+  padding: 32rpx 48rpx;
+}
+
+.modal-section {
+  margin-bottom: 32rpx;
+}
+
+.section-label {
+  display: block;
+  font-size: 24rpx;
+  color: #757c7d;
+  margin-bottom: 16rpx;
+  letter-spacing: 2rpx;
+}
+
+.section-value {
+  display: block;
+  font-size: 28rpx;
+  color: #2d3435;
+  line-height: 1.6;
+  white-space: pre-wrap;
 }

@@ -1,15 +1,8 @@
 <!--pages/cart/cart.wxml-->
 <view class="page">
-  <!-- 顶部导航栏 -->
-  <view class="header">
-    <view class="header-left"></view>
-    <text class="header-title">THE CURATED</text>
-    <view class="header-right"></view>
-  </view>
-
   <!-- 页面标题 -->
   <view class="page-header">
-    <text class="page-title">Cart</text>
+    <text class="page-title">购物车</text>
     <text class="page-subtitle">SELECTED ESSENTIALS</text>
   </view>
 
@@ -48,11 +41,11 @@
     <!-- 底部结算区域 -->
     <view class="checkout-section">
       <view class="summary-row">
-        <text class="summary-label">SUBTOTAL</text>
+        <text class="summary-label">小计</text>
         <text class="summary-value">¥{{cartTotal}}</text>
       </view>
       <view class="checkout-btn" bindtap="onSubmit">
-        <text>Proceed to Checkout</text>
+        <text>下单</text>
         <text class="arrow">→</text>
       </view>
     </view>

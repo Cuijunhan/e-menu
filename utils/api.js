@@ -26,9 +26,19 @@ function request(method, path, data) {
 
 module.exports = {
   getBanners: () => request("GET", "/banners"),
-  getCategories: () => request("GET", "/categories"),
-  getDishes: (categoryId) => {
-    const path = categoryId ? `/dishes?category_id=${categoryId}` : "/dishes";
+  getMainCategories: () => request("GET", "/api/main-categories"),
+  getCategories: (mainCategoryId) => {
+    const path = mainCategoryId ? `/categories?main_category_id=${mainCategoryId}` : "/categories";
+    return request("GET", path);
+  },
+  getDishes: (categoryId, mainCategoryId) => {
+    let path = "/dishes";
+    if (categoryId) {
+      path += `?category_id=${categoryId}`;
+    } else if (mainCategoryId) {
+      path += `?main_category_id=${mainCategoryId}`;
+    }
+    console.log('getDishes API 调用:', { categoryId, mainCategoryId, path });
     return request("GET", path);
   },
   getRandomDishes: (count = 5) => request("GET", `/dishes/random?count=${count}`),

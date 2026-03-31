@@ -49,21 +49,21 @@ Page({
     }
   },
 
-  // 点菜 → 全部菜品
+  // 点菜 → 饭菜分类
   goToFood() {
-    wx.setStorageSync('preSelectCategory', '');
+    wx.setStorageSync('preSelectMainCategory', 1);
     wx.switchTab({ url: '/pages/index/index' });
   },
 
-  // 咖啡 → 自动筛选咖啡分类
+  // 咖啡 → 咖啡分类
   goToCoffee() {
-    wx.setStorageSync('preSelectCategory', '咖啡');
+    wx.setStorageSync('preSelectMainCategory', 2);
     wx.switchTab({ url: '/pages/index/index' });
   },
 
-  // 喝酒 → 自动筛选酒水分类
+  // 喝酒 → 酒分类
   goToCocktail() {
-    wx.setStorageSync('preSelectCategory', '酒');
+    wx.setStorageSync('preSelectMainCategory', 3);
     wx.switchTab({ url: '/pages/index/index' });
   },
 

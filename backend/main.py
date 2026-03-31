@@ -3,8 +3,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from database import engine, Base, SessionLocal
-from models import Category, Dish, User, Banner
-from routers import categories, dishes, orders, reservations, banners, upload
+from models import MainCategory, Category, Dish, User, Banner
+from routers import categories, dishes, orders, reservations, banners, upload, main_categories
 import os
 
 # 创建所有表
@@ -21,6 +21,7 @@ app.add_middleware(
 )
 
 app.include_router(banners.router)
+app.include_router(main_categories.router)
 app.include_router(categories.router)
 app.include_router(dishes.router)
 app.include_router(orders.router)
@@ -50,14 +51,28 @@ def seed():
     """初始化示例数据（只在数据为空时执行）"""
     db = SessionLocal()
     try:
-        if db.query(Category).count() > 0:
+        if db.query(MainCategory).count() > 0:
             return
 
+        # 创建主分类
+        main_cats = [
+            MainCategory(name="饭菜", code="food"),
+            MainCategory(name="咖啡", code="coffee"),
+            MainCategory(name="酒", code="wine"),
+        ]
+        db.add_all(main_cats)
+        db.flush()
+
+        # 创建子分类
         cats = [
-            Category(name="热菜"),
-            Category(name="凉菜"),
-            Category(name="汤类"),
-            Category(name="主食"),
+            Category(name="热菜", main_category_id=main_cats[0].id),
+            Category(name="凉菜", main_category_id=main_cats[0].id),
+            Category(name="汤类", main_category_id=main_cats[0].id),
+            Category(name="主食", main_category_id=main_cats[0].id),
+            Category(name="美式", main_category_id=main_cats[1].id),
+            Category(name="拿铁", main_category_id=main_cats[1].id),
+            Category(name="红酒", main_category_id=main_cats[2].id),
+            Category(name="白酒", main_category_id=main_cats[2].id),
         ]
         db.add_all(cats)
         db.flush()
@@ -93,7 +108,7 @@ def seed():
         db.add(User(openid="test_user", balance=100.0))
 
         db.commit()
-        print("✅ 示例数据初始化完成")
+        print("示例数据初始化完成")
     finally:
         db.close()
 
