@@ -1,10 +1,17 @@
 <!--pages/random/random.wxml-->
 <view class="page">
-
-  <!-- 顶部标题区 -->
+  <!-- 顶部导航栏 -->
   <view class="header">
-    <text class="header-title">🎲 今日随机菜单</text>
-    <text class="header-sub">命运之轮已为你转动</text>
+    <view class="header-left"></view>
+    <text class="header-title">The Daily Ritual</text>
+    <view class="header-right"></view>
+  </view>
+
+  <!-- 页面标题 -->
+  <view class="page-header">
+    <text class="page-label">今日推荐</text>
+    <text class="page-title">随机菜单</text>
+    <view class="divider"></view>
   </view>
 
   <!-- 加载状态 -->
@@ -13,54 +20,40 @@
     <text class="loading-text">正在随机...</text>
   </view>
 
+  <!-- 空状态提示 -->
+  <view wx:elif="{{showEmptyTip}}" class="empty-tip">
+    <text class="tip-text">{{emptyTipText}}</text>
+  </view>
+
   <!-- 菜品列表 -->
   <view wx:else class="dish-list">
-    <view
-      wx:for="{{dishes}}"
-      wx:key="id"
-      class="dish-card"
-    >
-      <!-- 菜品图标 -->
-      <view class="dish-img">
-        <text class="dish-emoji">🍽</text>
+    <view wx:for="{{dishes}}" wx:key="id" class="dish-card {{item.removing ? 'removing' : ''}} {{item['removing-bounce'] ? 'removing-bounce' : ''}} {{item['removing-explode'] ? 'removing-explode' : ''}}">
+      <view class="dish-icon">
+        <text class="icon-emoji">🍽</text>
       </view>
-
-      <!-- 菜品信息 -->
       <view class="dish-info">
         <text class="dish-name">{{item.name}}</text>
         <text class="dish-desc">{{item.description}}</text>
-        <text class="dish-price">¥{{item.price}}</text>
       </view>
-
-      <!-- 数量控制 -->
-      <view class="qty-ctrl">
-        <view
-          wx:if="{{item.cartQty > 0}}"
-          class="btn-minus"
-          bindtap="onRemove"
-          data-id="{{item.id}}"
-        >－</view>
-        <text wx:if="{{item.cartQty > 0}}" class="qty-num">{{item.cartQty}}</text>
-        <view
-          class="btn-add"
-          bindtap="onAdd"
-          data-dish="{{item}}"
-        >＋</view>
+      <view class="cart-control">
+        <text class="btn-plus" catchtap="addToCart" data-id="{{item.id}}" data-name="{{item.name}}" data-price="{{item.price}}">+</text>
       </view>
     </view>
   </view>
 
+  <!-- 购物车图标 -->
+  <view class="cart-icon {{cartBlink ? 'blink' : ''}}" bindtap="goToCart">
+    🧺
+  </view>
+
   <!-- 底部操作区 -->
   <view class="footer">
-    <button class="btn-again" bindtap="onRandom">🎲 再次随便</button>
-
-    <!-- 购物车栏（有商品时显示） -->
-    <view wx:if="{{cartCount > 0}}" class="cart-bar" bindtap="goToCart">
-      <view class="cart-left">
-        <view class="cart-badge">{{cartCount}}</view>
-        <text class="cart-total">¥{{cartTotal}}</text>
-      </view>
-      <text class="cart-checkout">去结算</text>
+    <view class="action-wrap">
+      <button class="btn-random" bindtap="onRandom">
+        <text class="btn-icon">🎲</text>
+        <text class="btn-text">再次随机</text>
+      </button>
+      <text class="footer-note">LET CHANCE DEFINE YOUR NOURISHMENT TODAY.</text>
     </view>
   </view>
 

@@ -158,6 +158,7 @@
 <header>
   🍽️ 家庭点餐后台管理
   <span>— 菜单 · 分类 · 订单</span>
+  <a href="/admin/banners" style="margin-left: auto; background: rgba(255,255,255,0.2); color: #fff; padding: 8px 16px; border-radius: 4px; text-decoration: none; font-size: 14px;">🖼️ 轮播图管理</a>
 </header>
 
 <div class="tabs">
@@ -237,6 +238,12 @@
     <h3>添加分类</h3>
     <div class="form-row">
       <div class="form-group">
+        <label>主分类 *</label>
+        <select id="cat-main-category" style="width:120px">
+          <option value="">加载中...</option>
+        </select>
+      </div>
+      <div class="form-group">
         <label>分类名称 *</label>
         <input id="cat-name" type="text" placeholder="例：热菜" style="width:180px" />
       </div>
@@ -245,7 +252,7 @@
   </div>
 
   <div class="card">
-    <h3>分类列表</h3>
+    <h3>饭菜分类</h3>
     <table>
       <thead>
         <tr>
@@ -254,7 +261,39 @@
           <th>操作</th>
         </tr>
       </thead>
-      <tbody id="cat-table-body">
+      <tbody id="cat-food-body">
+        <tr><td colspan="3" class="empty">加载中...</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>咖啡分类</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>分类名称</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody id="cat-coffee-body">
+        <tr><td colspan="3" class="empty">加载中...</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>酒分类</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>分类名称</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody id="cat-wine-body">
         <tr><td colspan="3" class="empty">加载中...</td></tr>
       </tbody>
     </table>
@@ -379,10 +418,21 @@
   }
 
   // ---- 分类 ----
+  let mainCategories = [];
+
   async function loadCategories() {
+    mainCategories = await api('GET', '/api/main-categories');
     categories = await api('GET', '/categories');
 
-    // 填充选择框
+    // 填充主分类选择框
+    const mainCatSel = document.getElementById('cat-main-category');
+    if (mainCatSel) {
+      mainCatSel.innerHTML = mainCategories.map(m =>
+        `<option value="${m.id}">${m.name}</option>`
+      ).join('');
+    }
+
+    // 填充菜品分类选择框
     ['dish-category', 'edit-category', 'filter-category'].forEach(id => {
       const sel = document.getElementById(id);
       if (!sel) return;
@@ -396,27 +446,36 @@
       });
     });
 
-    // 渲染表格
-    const tbody = document.getElementById('cat-table-body');
-    if (!tbody) return;
-    if (!categories.length) {
-      tbody.innerHTML = '<tr><td colspan="3" class="empty">暂无分类</td></tr>';
-      return;
-    }
-    tbody.innerHTML = categories.map(c => `
-      <tr>
-        <td>${c.id}</td>
-        <td>${c.name}</td>
-        <td><button class="btn btn-danger" onclick="deleteCategory(${c.id}, '${c.name}')">删除</button></td>
-      </tr>
-    `).join('');
+    // 按主分类渲染三个表格
+    mainCategories.forEach(mc => {
+      const bodyId = `cat-${mc.code}-body`;
+      const tbody = document.getElementById(bodyId);
+      if (!tbody) return;
+
+      const cats = categories.filter(c => c.main_category_id === mc.id);
+      if (!cats.length) {
+        tbody.innerHTML = '<tr><td colspan="3" class="empty">暂无分类</td></tr>';
+        return;
+      }
+      tbody.innerHTML = cats.map(c => `
+        <tr>
+          <td>${c.id}</td>
+          <td>${c.name}</td>
+          <td><button class="btn btn-danger" onclick="deleteCategory(${c.id}, '${c.name}')">删除</button></td>
+        </tr>
+      `).join('');
+    });
   }
 
   async function addCategory() {
+    const mainCategoryId = document.getElementById('cat-main-category').value;
     const name = document.getElementById('cat-name').value.trim();
-    if (!name) { toast('请输入分类名称', 'error'); return; }
+    if (!mainCategoryId || !name) {
+      toast('请选择主分类并输入分类名称', 'error');
+      return;
+    }
     try {
-      await api('POST', '/categories', { name });
+      await api('POST', '/categories', { name, main_category_id: parseInt(mainCategoryId) });
       document.getElementById('cat-name').value = '';
       toast('分类添加成功');
       loadCategories();

@@ -1,5 +1,11 @@
 <!--pages/orders/orders.wxml-->
 <view class="page">
+  <!-- 顶部导航栏 -->
+  <view class="header">
+    <view class="back-btn" bindtap="goBack">‹</view>
+    <text class="header-title">历史订单</text>
+    <view class="header-spacer"></view>
+  </view>
 
   <!-- 加载中 -->
   <view wx:if="{{loading}}" class="loading">
@@ -8,43 +14,57 @@
 
   <!-- 空订单 -->
   <view wx:elif="{{orders.length === 0}}" class="empty">
-    <text class="empty-icon">📋</text>
-    <text class="empty-text">还没有订单</text>
+    <view class="empty-line"></view>
+    <text class="empty-text">Fin.</text>
   </view>
 
   <!-- 订单列表 -->
   <view wx:else class="order-list">
     <view wx:for="{{orders}}" wx:key="id" class="order-card">
-
       <!-- 订单头部 -->
-      <view class="order-header">
+      <view class="order-header" bindtap="toggleOrder" data-id="{{item.id}}">
         <text class="order-id">订单 #{{item.id}}</text>
-        <text class="order-status {{item.status === '已完成' ? 'done' : 'pending'}}">
-          {{item.status}}
-        </text>
-      </view>
-
-      <!-- 菜品清单 -->
-      <view class="order-items">
-        <view
-          wx:for="{{item.items}}"
-          wx:for-item="dish"
-          wx:key="dish_id"
-          class="order-item-row"
-        >
-          <text class="dish-name">{{dish.dish_name}}</text>
-          <text class="dish-qty">x{{dish.quantity}}</text>
-          <text class="dish-price">¥{{dish.price}}</text>
+        <view class="header-right">
+          <view class="order-status {{item.status === '已完成' ? 'done' : 'pending'}}">
+            {{item.status}}
+          </view>
+          <text class="arrow {{item.expanded ? 'expanded' : ''}}">›</text>
         </view>
       </view>
 
-      <!-- 订单底部 -->
-      <view class="order-footer">
+      <!-- 订单简要信息 -->
+      <view class="order-summary">
         <text class="order-time">{{item.create_time}}</text>
-        <text class="order-total">合计 ¥{{item.total_price}}</text>
+        <text class="order-total">¥{{item.total_price}}</text>
       </view>
 
+      <!-- 展开的详情 -->
+      <view wx:if="{{item.expanded}}" class="order-detail">
+        <view class="divider"></view>
+
+        <!-- 菜品清单 -->
+        <view class="order-items">
+          <view wx:for="{{item.items}}" wx:for-item="dish" wx:key="dish_id" class="dish-row">
+            <text class="dish-name">{{dish.dish_name}}</text>
+            <view class="dish-actions">
+              <text class="dish-price">¥{{dish.price}}</text>
+              <view wx:if="{{item.status !== '已完成'}}" class="quantity-control">
+                <text class="qty-btn" catchtap="decreaseQty" data-order-id="{{item.id}}" data-dish-id="{{dish.dish_id}}">-</text>
+                <text class="qty-text">{{dish.quantity}}</text>
+                <text class="qty-btn" catchtap="increaseQty" data-order-id="{{item.id}}" data-dish-id="{{dish.dish_id}}">+</text>
+              </view>
+              <text wx:else class="qty-text">x{{dish.quantity}}</text>
+            </view>
+          </view>
+        </view>
+
+        <!-- 操作按钮 -->
+        <view class="action-btns">
+          <button wx:if="{{item.status === '已完成'}}" class="btn-reorder" bindtap="addToCart" data-id="{{item.id}}">再次下单</button>
+          <button wx:else class="btn-reorder" bindtap="reorder" data-id="{{item.id}}">重新下单</button>
+          <button class="btn-cancel" bindtap="{{item.status === '已完成' ? 'deleteOrder' : 'cancelOrder'}}" data-id="{{item.id}}">{{item.status === '已完成' ? '删除订单' : '取消订单'}}</button>
+        </view>
+      </view>
     </view>
   </view>
-
 </view>

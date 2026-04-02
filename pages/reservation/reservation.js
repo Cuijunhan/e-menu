@@ -76,4 +76,9 @@ Page({
       success: () => wx.showToast({ title: '链接已复制', icon: 'success' }),
     });
   },
+
+  goToDetail(e) {
+    const id = e.currentTarget.dataset.id;
+    wx.navigateTo({ url: `/pages/reservation-detail/reservation-detail?id=${id}` });
+  },
 });

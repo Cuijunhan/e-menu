@@ -6,34 +6,38 @@
     "pages/orders/orders",
     "pages/profile/profile",
     "pages/random/random",
-    "pages/reservation/reservation"
+    "pages/reservation/reservation",
+    "pages/reservation-detail/reservation-detail"
   ],
   "window": {
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#FF6B35",
-    "navigationBarTitleText": "家庭点餐",
-    "navigationBarTextStyle": "white"
+    "navigationBarBackgroundColor": "#f9f9f9",
+    "navigationBarTitleText": "",
+    "navigationBarTextStyle": "black",
+    "navigationStyle": "custom"
   },
   "tabBar": {
+    "custom": true,
     "color": "#999999",
-    "selectedColor": "#FF6B35",
-    "borderStyle": "black",
+    "selectedColor": "#2d3435",
+    "borderStyle": "white",
+    "backgroundColor": "#ffffff",
     "list": [
       {
         "pagePath": "pages/home/home",
-        "text": "首页"
+        "text": "HOME"
       },
       {
         "pagePath": "pages/index/index",
-        "text": "点单"
+        "text": "TASTE"
       },
       {
         "pagePath": "pages/cart/cart",
-        "text": "购物车"
+        "text": "CART"
       },
       {
         "pagePath": "pages/profile/profile",
-        "text": "我的"
+        "text": "IDENTITY"
       }
     ]
   },

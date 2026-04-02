@@ -65,6 +65,16 @@ def complete_order(order_id: int, db: Session = Depends(get_db)):
     return _build_order_out(order, db)
 
 
+@router.delete("/{order_id}")
+def delete_order(order_id: int, db: Session = Depends(get_db)):
+    order = db.query(Order).filter(Order.id == order_id).first()
+    if not order:
+        raise HTTPException(status_code=404, detail="订单不存在")
+    db.delete(order)
+    db.commit()
+    return {"message": "订单已删除"}
+
+
 def _build_order_out(order: Order, db: Session) -> OrderOut:
     """把 order 对象转成带菜名的 OrderOut"""
     items_out = []

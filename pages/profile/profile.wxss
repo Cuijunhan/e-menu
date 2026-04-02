@@ -1,87 +1,236 @@
 /* pages/profile/profile.wxss */
 
 .page {
-  background: #f5f5f5;
+  background: #f9f9f9;
   min-height: 100vh;
+  padding-top: 50rpx;
+  padding-bottom: 160rpx;
 }
 
-.user-card {
-  background: linear-gradient(135deg, #FF6B35, #FF8C5A);
-  padding: 70rpx 40rpx 60rpx;
+/* 用户信息区 */
+.user-section {
+  padding: 90rpx 48rpx 64rpx;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .avatar {
-  width: 120rpx;
-  height: 120rpx;
+  width: 192rpx;
+  height: 192rpx;
   border-radius: 50%;
-  background: rgba(255,255,255,0.3);
+  background: #f2f4f4;
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
+  margin-bottom: 48rpx;
+  border: 2rpx solid rgba(172, 179, 180, 0.1);
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.02);
 }
 
-.avatar-text {
-  font-size: 60rpx;
+.avatar-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+.avatar-emoji {
+  font-size: 96rpx;
+  opacity: 0.8;
 }
 
 .user-info {
-  margin-left: 30rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
 }
 
 .user-name {
-  font-size: 36rpx;
-  font-weight: bold;
-  color: #fff;
-  display: block;
+  font-size: 80rpx;
+  font-weight: 300;
+  letter-spacing: -2rpx;
+  color: #2d3435;
+  line-height: 1.2;
 }
 
-.user-sub {
-  font-size: 24rpx;
-  color: rgba(255,255,255,0.8);
-  display: block;
-  margin-top: 8rpx;
+.user-label {
+  font-size: 20rpx;
+  letter-spacing: 8rpx;
+  color: rgba(89, 96, 97, 0.6);
 }
 
+/* 统计卡片 */
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32rpx;
+  padding: 0 48rpx 96rpx;
+}
+
+.stat-card {
+  background: #ffffff;
+  padding: 48rpx;
+  border-radius: 24rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 256rpx;
+  transition: all 0.3s;
+}
+
+.stat-card:active {
+  background: #f9f9f9;
+}
+
+.stat-label {
+  font-size: 20rpx;
+  letter-spacing: 6rpx;
+  color: rgba(89, 96, 97, 0.5);
+}
+
+.stat-value {
+  font-size: 48rpx;
+  font-style: italic;
+  color: #2d3435;
+}
+
+/* 菜单列表 */
 .menu-section {
-  background: #fff;
-  margin: 24rpx 0 0;
+  padding: 0 48rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.section-label {
+  font-size: 20rpx;
+  letter-spacing: 12rpx;
+  color: rgba(89, 96, 97, 0.4);
+  margin-left: 8rpx;
+}
+
+.menu-group {
+  background: rgba(242, 244, 244, 0.5);
+  border-radius: 32rpx;
+  overflow: hidden;
 }
 
 .menu-item {
   display: flex;
   align-items: center;
-  padding: 36rpx 40rpx;
-  border-bottom: 1rpx solid #f5f5f5;
+  padding: 40rpx;
+  transition: all 0.3s;
 }
 
-.menu-item:last-child {
-  border-bottom: none;
+.menu-item:active {
+  background: #f2f4f4;
 }
 
 .menu-icon {
-  font-size: 44rpx;
-  margin-right: 24rpx;
+  font-size: 40rpx;
+  margin-right: 32rpx;
+  opacity: 0.8;
 }
 
 .menu-text {
   flex: 1;
-  font-size: 30rpx;
-  color: #333;
+  font-size: 28rpx;
+  letter-spacing: 2rpx;
+  color: #2d3435;
 }
 
 .badge {
-  background: #FF6B35;
-  color: #fff;
+  background: #5f5e5e;
+  color: #faf7f6;
   font-size: 20rpx;
-  padding: 4rpx 14rpx;
-  border-radius: 20rpx;
-  margin-right: 10rpx;
+  padding: 6rpx 16rpx;
+  border-radius: 24rpx;
+  margin-right: 16rpx;
+  font-weight: 700;
 }
 
 .menu-arrow {
   font-size: 40rpx;
-  color: #ccc;
+  color: rgba(172, 179, 180, 0.4);
+}
+
+/* 提示信息 */
+.toast-msg {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(45, 52, 53, 0.9);
+  color: #fff;
+  padding: 32rpx 64rpx;
+  border-radius: 16rpx;
+  font-size: 28rpx;
+  z-index: 1000;
+}
+
+/* 头像按钮 */
+.avatar-btn {
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  border: none;
+  margin-bottom: 48rpx;
+}
+
+.avatar-btn::after {
+  border: none;
+}
+
+/* 昵称输入框 */
+.user-name-input {
+  font-size: 56rpx;
+  font-weight: 300;
+  color: #2d3435;
+  line-height: 1.2;
+  margin-bottom: 16rpx;
+}
+
+/* 授权引导页 */
+.auth-guide {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #f9f9f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.auth-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 48rpx;
+}
+
+.auth-title {
+  font-size: 64rpx;
+  font-weight: 300;
+  color: #2d3435;
+}
+
+.auth-desc {
+  font-size: 28rpx;
+  color: #757c7d;
+}
+
+.auth-btn {
+  background: #5f5e5e;
+  color: #faf7f6;
+  padding: 32rpx 96rpx;
+  border-radius: 48rpx;
+  font-size: 28rpx;
+  border: none;
+}
+
+.auth-btn::after {
+  border: none;
 }

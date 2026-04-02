@@ -1,0 +1,110 @@
+.page {
+  background: #f9f9f9;
+  min-height: 100vh;
+  padding: 48rpx;
+}
+
+.loading {
+  text-align: center;
+  padding: 200rpx 0;
+  color: #999;
+}
+
+.detail {
+  background: #fff;
+  border-radius: 24rpx;
+  padding: 48rpx;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 12rpx 32rpx;
+  border-radius: 40rpx;
+  font-size: 24rpx;
+  letter-spacing: 4rpx;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-bottom: 48rpx;
+}
+
+.status-badge.pending {
+  background: #fdf2e2;
+  color: #625b4f;
+}
+
+.status-badge.done {
+  background: #dde4e5;
+  color: #596061;
+}
+
+.field {
+  margin-bottom: 48rpx;
+}
+
+.label {
+  display: block;
+  font-size: 22rpx;
+  text-transform: uppercase;
+  letter-spacing: 8rpx;
+  color: #596061;
+  font-weight: 600;
+  margin-bottom: 24rpx;
+}
+
+.input,
+.textarea {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1rpx solid rgba(117, 124, 125, 0.3);
+  padding: 24rpx 0;
+  font-size: 32rpx;
+  color: #2d3435;
+}
+
+.textarea {
+  min-height: 120rpx;
+}
+
+.time {
+  font-size: 24rpx;
+  color: #999;
+  margin-bottom: 48rpx;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+  margin-top: 64rpx;
+}
+
+.btn-save {
+  width: 100%;
+  height: 100rpx;
+  background: #5f5e5e;
+  color: #faf7f6;
+  border-radius: 50rpx;
+  font-size: 28rpx;
+  font-weight: 500;
+  letter-spacing: 8rpx;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-delete {
+  width: 100%;
+  height: 100rpx;
+  background: transparent;
+  color: #9f403d;
+  border: 2rpx solid #9f403d;
+  border-radius: 50rpx;
+  font-size: 28rpx;
+  font-weight: 500;
+  letter-spacing: 8rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

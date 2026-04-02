@@ -1,15 +1,35 @@
 <!--pages/index/index.wxml-->
 <view class="page">
+  <!-- 顶部导航栏 -->
+  <view class="header">
+    <view class="header-left"></view>
+    <text class="header-title">THE CURATED</text>
+    <view class="header-right">
+      <text class="cart-icon-small">🛒</text>
+    </view>
+  </view>
 
   <!-- 主内容区：左侧分类 + 右侧菜品 -->
   <view class="main">
 
     <!-- 左侧分类栏 -->
     <scroll-view class="cat-sidebar" scroll-y>
+      <!-- 主分类 -->
+      <view
+        wx:for="{{mainCategories}}"
+        wx:key="id"
+        class="main-cat-item {{activeMainCategoryId === item.id ? 'active' : ''}}"
+        bindtap="onMainCategoryTap"
+        data-id="{{item.id}}"
+      >{{item.name}}</view>
+
+      <view class="cat-divider"></view>
+
+      <!-- 子分类 -->
       <view
         class="cat-item {{activeCategoryId === null ? 'active' : ''}}"
         bindtap="onCategoryTap"
-        data-id="{{null}}"
+        data-id="{{0}}"
       >全部</view>
       <view
         wx:for="{{categories}}"
@@ -21,11 +41,13 @@
     </scroll-view>
 
     <!-- 右侧菜品列表 -->
-    <scroll-view class="dish-scroll" scroll-y>
+    <scroll-view class="dish-scroll" scroll-y bindscroll="onScroll">
       <view
         wx:for="{{dishes}}"
         wx:key="id"
         class="dish-card"
+        bindtap="onDishTap"
+        data-dish="{{item}}"
       >
         <view class="dish-img-placeholder">
           <text class="dish-emoji">🍽</text>
@@ -39,7 +61,7 @@
               <view
                 wx:if="{{dishQuantities[item.id] > 0}}"
                 class="qty-btn minus"
-                bindtap="onRemoveTap"
+                catchtap="onRemoveTap"
                 data-dish="{{item}}"
               >-</view>
               <text
@@ -48,7 +70,7 @@
               >{{dishQuantities[item.id]}}</text>
               <view
                 class="qty-btn add"
-                bindtap="onAddTap"
+                catchtap="onAddTap"
                 data-dish="{{item}}"
               >+</view>
             </view>
@@ -59,13 +81,13 @@
       <view wx:if="{{dishes.length === 0}}" class="empty-tip">
         <text>暂无菜品</text>
       </view>
-      <view style="height: 140rpx;"></view>
+      <view style="height: 350rpx;"></view>
     </scroll-view>
 
   </view>
 
   <!-- 底部购物车栏 -->
-  <view class="cart-bar" bindtap="goToCart">
+  <view class="cart-bar {{cartBarHidden ? 'hidden' : ''}}" bindtap="goToCart">
     <view class="cart-left">
       <view class="cart-icon-wrap">
         <text class="cart-icon">🛒</text>
@@ -78,6 +100,34 @@
       <view class="cart-btn {{cartCount > 0 ? 'enabled' : ''}}">
         <text>去结算</text>
       </view>
+    </view>
+  </view>
+
+  <!-- 菜品详情弹窗 -->
+  <view wx:if="{{showDishDetail}}" class="dish-modal" catchtap="closeDishDetail">
+    <view class="dish-modal-content" catchtap="stopPropagation">
+      <view class="modal-header">
+        <text class="modal-title">{{selectedDish.name}}</text>
+        <text class="modal-close" catchtap="closeDishDetail">×</text>
+      </view>
+      <scroll-view class="modal-body" scroll-y>
+        <view class="modal-section">
+          <text class="section-label">价格</text>
+          <text class="section-value">¥{{selectedDish.price}}</text>
+        </view>
+        <view class="modal-section" wx:if="{{selectedDish.description}}">
+          <text class="section-label">简介</text>
+          <text class="section-value">{{selectedDish.description}}</text>
+        </view>
+        <view class="modal-section" wx:if="{{selectedDish.ingredients}}">
+          <text class="section-label">食材</text>
+          <text class="section-value">{{selectedDish.ingredients}}</text>
+        </view>
+        <view class="modal-section" wx:if="{{selectedDish.instructions}}">
+          <text class="section-label">做法</text>
+          <text class="section-value">{{selectedDish.instructions}}</text>
+        </view>
+      </scroll-view>
     </view>
   </view>
 

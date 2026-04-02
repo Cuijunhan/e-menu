@@ -1,5 +1,5 @@
 // utils/api.js - 统一封装后端请求
-const BASE_URL = "http://192.168.1.172:8000";
+const BASE_URL = "http://114.67.227.216:8000";
 
 function request(method, path, data) {
   return new Promise((resolve, reject) => {
@@ -25,15 +25,29 @@ function request(method, path, data) {
 }
 
 module.exports = {
-  getCategories: () => request("GET", "/categories"),
-  getDishes: (categoryId) => {
-    const path = categoryId ? `/dishes?category_id=${categoryId}` : "/dishes";
+  getBanners: () => request("GET", "/banners"),
+  getMainCategories: () => request("GET", "/api/main-categories"),
+  getCategories: (mainCategoryId) => {
+    const path = mainCategoryId ? `/categories?main_category_id=${mainCategoryId}` : "/categories";
+    return request("GET", path);
+  },
+  getDishes: (categoryId, mainCategoryId) => {
+    let path = "/dishes";
+    if (categoryId) {
+      path += `?category_id=${categoryId}`;
+    } else if (mainCategoryId) {
+      path += `?main_category_id=${mainCategoryId}`;
+    }
+    console.log('getDishes API 调用:', { categoryId, mainCategoryId, path });
     return request("GET", path);
   },
   getRandomDishes: (count = 5) => request("GET", `/dishes/random?count=${count}`),
   createOrder: (payload) => request("POST", "/orders", payload),
   getOrders: (userId) => request("GET", `/orders?user_id=${userId}`),
+  deleteOrder: (id) => request("DELETE", `/orders/${id}`),
   // 预约
   createReservation: (payload) => request("POST", "/reservations", payload),
   getReservations: (userId) => request("GET", `/reservations?user_id=${userId}`),
+  updateReservation: (id, payload) => request("PUT", `/reservations/${id}`, payload),
+  deleteReservation: (id) => request("DELETE", `/reservations/${id}`),
 };

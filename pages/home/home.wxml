@@ -1,62 +1,75 @@
 <!--pages/home/home.wxml-->
 <view class="page">
+  <!-- 顶部导航栏 -->
+  <!-- <view class="header" style="padding-top: {{statusBarHeight}}px;">
+    <view class="header-content">
+      <view class="header-left"></view>
+      <text class="header-title">康康吃什么</text>
+      <view class="header-right"></view>
+    </view>
+  </view> -->
 
-  <!-- 自动滚动 Banner -->
-  <swiper
-    class="swiper"
-    autoplay="{{true}}"
-    interval="3000"
-    duration="500"
-    circular="{{true}}"
-    indicator-dots="{{true}}"
-    indicator-color="rgba(0,0,0,0.2)"
-    indicator-active-color="#1a1a1a"
-  >
-    <swiper-item>
-      <image class="banner-img" src="/images/banner-cooking.png" mode="aspectFill"/>
-    </swiper-item>
-    <swiper-item>
-      <image class="banner-img" src="/images/banner-coffee.png" mode="aspectFill"/>
-    </swiper-item>
-    <swiper-item>
-      <image class="banner-img" src="/images/banner-cocktail.png" mode="aspectFill"/>
-    </swiper-item>
-  </swiper>
+  <view class="main">
+    <!-- Hero 轮播图区域 -->
+    <swiper class="hero-section" indicator-dots="{{true}}" autoplay="{{true}}" interval="{{5000}}" duration="{{500}}" circular="{{true}}">
+      <swiper-item wx:for="{{banners}}" wx:key="id">
+        <image class="hero-img" src="{{item.image}}" mode="heightFix"/>
+        <view class="hero-overlay"></view>
+        <view class="hero-text" wx:if="{{item.title}}">
+          <text class="hero-title">{{item.title}}</text>
+        </view>
+      </swiper-item>
+    </swiper>
 
-  <!-- 功能入口 -->
-  <view class="grid-wrap">
-
-    <!-- 第一行：点菜 咖啡 喝酒 -->
-    <view class="grid-row">
-      <view class="grid-card" bindtap="goToFood">
-        <image class="grid-img" src="/images/icon-food.png" mode="aspectFit"/>
-        <text class="grid-label">点菜</text>
+    <!-- 功能网格 -->
+    <view class="grid-menu">
+      <view class="grid-item" bindtap="goToFood">
+        <view class="icon-box">
+          <image class="icon-img" src="/images/icon-cooking.png" mode="aspectFit"/>
+        </view>
+        <text class="item-label">COOKING</text>
+        <text class="item-desc">Slow nourishment</text>
       </view>
-      <view class="grid-card" bindtap="goToCoffee">
-        <image class="grid-img" src="/images/icon-coffee.png" mode="aspectFit"/>
-        <text class="grid-label">咖啡</text>
+
+      <view class="grid-item offset" bindtap="goToCoffee">
+        <view class="icon-box">
+          <image class="icon-img" src="/images/icon-coffee.png" mode="aspectFit"/>
+        </view>
+        <text class="item-label">COFFEE</text>
+        <text class="item-desc">Morning ritual</text>
       </view>
-      <view class="grid-card" bindtap="goToCocktail">
-        <image class="grid-img" src="/images/icon-cocktail.png" mode="aspectFit"/>
-        <text class="grid-label">喝酒</text>
+
+      <view class="grid-item" bindtap="goToCocktail">
+        <view class="icon-box">
+          <image class="icon-img" src="/images/icon-cocktail.png" mode="aspectFit"/>
+        </view>
+        <text class="item-label">WINE</text>
+        <text class="item-desc">Earthly notes</text>
+      </view>
+
+      <view class="grid-item offset" bindtap="goToRandom">
+        <view class="icon-box">
+          <image class="icon-img" src="/images/icon-random.png" mode="aspectFit"/>
+        </view>
+        <text class="item-label">RANDOM</text>
+        <text class="item-desc">Chance encounters</text>
+      </view>
+
+      <view class="grid-item" bindtap="goToHistory">
+        <view class="icon-box">
+          <image class="icon-img" src="/images/icon-history.png" mode="aspectFit"/>
+        </view>
+        <text class="item-label">HISTORY</text>
+        <text class="item-desc">Past dialogues</text>
+      </view>
+
+      <view class="grid-item offset" bindtap="goToReservation">
+        <view class="icon-box">
+          <image class="icon-img" src="/images/icon-wish.png" mode="aspectFit"/>
+        </view>
+        <text class="item-label">WISH</text>
+        <text class="item-desc">Private space</text>
       </view>
     </view>
-
-    <!-- 第二行：随机推荐 历史订单 想吃什么 -->
-    <view class="grid-row">
-      <view class="grid-card" bindtap="goToRandom">
-        <image class="grid-img" src="/images/icon-random.png" mode="aspectFit"/>
-        <text class="grid-label">随机推荐</text>
-      </view>
-      <view class="grid-card" bindtap="goToHistory">
-        <image class="grid-img" src="/images/icon-history.png" mode="aspectFit"/>
-        <text class="grid-label">历史订单</text>
-      </view>
-      <view class="grid-card" bindtap="goToReservation">
-        <image class="grid-img" src="/images/icon-wish.png" mode="aspectFit"/>
-        <text class="grid-label">想吃什么</text>
-      </view>
-    </view>
-
   </view>
 </view>

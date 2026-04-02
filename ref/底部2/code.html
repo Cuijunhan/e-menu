@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,300;0,400;0,700;1,400&amp;family=Manrope:wght@200;300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-tint": "#5f5e5e",
+              "tertiary": "#655e52",
+              "outline-variant": "#acb3b4",
+              "surface-variant": "#dde4e5",
+              "on-tertiary-fixed": "#4f493d",
+              "primary": "#5f5e5e",
+              "primary-fixed": "#e4e2e1",
+              "surface-container": "#ebeeef",
+              "outline": "#757c7d",
+              "on-tertiary": "#fff8f0",
+              "tertiary-container": "#fdf2e2",
+              "on-secondary-fixed": "#3e3f40",
+              "inverse-on-surface": "#9c9d9d",
+              "tertiary-fixed": "#fdf2e2",
+              "on-secondary-container": "#515252",
+              "error": "#9f403d",
+              "primary-dim": "#535252",
+              "secondary": "#5e5f5f",
+              "on-secondary-fixed-variant": "#5b5b5c",
+              "surface-container-high": "#e4e9ea",
+              "background": "#f9f9f9",
+              "on-surface": "#2d3435",
+              "secondary-container": "#e3e2e2",
+              "on-primary-fixed": "#3f3f3f",
+              "on-tertiary-fixed-variant": "#6d6559",
+              "inverse-primary": "#ffffff",
+              "secondary-dim": "#525353",
+              "on-primary-fixed-variant": "#5c5b5b",
+              "tertiary-dim": "#595246",
+              "on-error": "#fff7f6",
+              "secondary-fixed": "#e3e2e2",
+              "on-secondary": "#faf8f8",
+              "tertiary-fixed-dim": "#efe4d4",
+              "secondary-fixed-dim": "#d5d4d4",
+              "on-error-container": "#752121",
+              "primary-container": "#e4e2e1",
+              "primary-fixed-dim": "#d6d4d3",
+              "on-primary": "#faf7f6",
+              "surface-dim": "#d3dbdd",
+              "surface-container-highest": "#dde4e5",
+              "on-primary-container": "#525251",
+              "error-dim": "#4e0309",
+              "error-container": "#fe8983",
+              "surface-container-lowest": "#ffffff",
+              "surface": "#f9f9f9",
+              "on-surface-variant": "#596061",
+              "inverse-surface": "#0c0f0f",
+              "on-background": "#2d3435",
+              "on-tertiary-container": "#625b4f",
+              "surface-container-low": "#f2f4f4",
+              "surface-bright": "#f9f9f9"
+            },
+            fontFamily: {
+              "headline": ["Noto Serif"],
+              "body": ["Manrope"],
+              "label": ["Manrope"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'wght' 200, 'opsz' 24;
+            font-size: 20px;
+        }
+        body {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .zen-blur {
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body min-h-screen pb-32">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-[#f9f9f9]/85 backdrop-blur-md dark:bg-zinc-950/85 flex items-center justify-between px-6 h-16 w-full">
+<div class="flex items-center text-zinc-600 dark:text-zinc-400 hover:opacity-70 transition-opacity cursor-pointer">
+<span class="material-symbols-outlined">menu</span>
+</div>
+<h1 class="text-lg font-['Noto_Serif'] italic tracking-widest text-zinc-800 dark:text-zinc-100 uppercase">THE CURATED</h1>
+<div class="flex items-center text-zinc-600 dark:text-zinc-400 hover:opacity-70 transition-opacity cursor-pointer">
+<span class="material-symbols-outlined">shopping_bag</span>
+</div>
+</header>
+<main class="pt-24 px-6 max-w-2xl mx-auto">
+<!-- User Profile Header Section -->
+<section class="mb-16 flex flex-col items-start">
+<div class="w-24 h-24 mb-6 rounded-full bg-surface-container-low flex items-center justify-center border border-outline-variant/10 overflow-hidden shadow-sm">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="Minimalist hand-drawn pencil sketch style illustration of a serene female face profile on white paper texture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBXlnxtZ99NfmybfZPUJmss7TbOMwax1zcLFoTvoytvIhB1-fKXomcD9qEzT5sZ4ISuf56opIKEsvbujAd8Y9RZNr5FdYt7g2BDowqlRnevvfbdVofvg_bRmenhPZhD4J0N7yINfGF-JJTfWjUVroMzvuI3L7MZOk3Z8pZhPuexZzP7yyVtbvoIJHSLAJ_p5GTOgrkfEp2H5OVZT7UDA05CgIkm6rbNkqlcYpymgRUaS0urijTemAACBkR1UPeN42q_uo0jKJLHaTQ"/>
+</div>
+<div class="space-y-1">
+<h2 class="text-4xl font-headline font-light tracking-tight text-on-surface">Evelyn Chen</h2>
+<p class="text-sm font-label uppercase tracking-[0.2em] text-on-surface-variant/60">Member since MMXXIII</p>
+</div>
+</section>
+<!-- Stats Grid (Bento style) -->
+<section class="grid grid-cols-2 gap-4 mb-12">
+<div class="bg-surface-container-lowest p-6 rounded-xl flex flex-col justify-between h-32 hover:bg-surface-bright transition-colors duration-300">
+<span class="text-xs font-label uppercase tracking-widest text-on-surface-variant/50">My Points</span>
+<span class="text-2xl font-headline italic">1,240</span>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl flex flex-col justify-between h-32 hover:bg-surface-bright transition-colors duration-300">
+<span class="text-xs font-label uppercase tracking-widest text-on-surface-variant/50">Coupons</span>
+<span class="text-2xl font-headline italic">03</span>
+</div>
+</section>
+<!-- Menu Items List -->
+<section class="space-y-6">
+<div class="flex flex-col space-y-2">
+<span class="text-[10px] font-label uppercase tracking-[0.3em] text-on-surface-variant/40 ml-1">Essentials</span>
+<div class="bg-surface-container-low/50 rounded-2xl overflow-hidden">
+<!-- My Orders -->
+<a class="flex items-center justify-between p-5 hover:bg-surface-container-low transition-colors group" href="#">
+<div class="flex items-center space-x-4">
+<span class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform">receipt_long</span>
+<span class="text-sm font-headline tracking-wide text-on-surface">My Orders</span>
+</div>
+<span class="material-symbols-outlined text-outline-variant/40 text-sm">chevron_right</span>
+</a>
+<!-- My Collection -->
+<a class="flex items-center justify-between p-5 hover:bg-surface-container-low transition-colors group" href="#">
+<div class="flex items-center space-x-4">
+<span class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform">favorite_border</span>
+<span class="text-sm font-headline tracking-wide text-on-surface">Saved Pieces</span>
+</div>
+<span class="material-symbols-outlined text-outline-variant/40 text-sm">chevron_right</span>
+</a>
+<!-- Address -->
+<a class="flex items-center justify-between p-5 hover:bg-surface-container-low transition-colors group" href="#">
+<div class="flex items-center space-x-4">
+<span class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform">location_on</span>
+<span class="text-sm font-headline tracking-wide text-on-surface">Addresses</span>
+</div>
+<span class="material-symbols-outlined text-outline-variant/40 text-sm">chevron_right</span>
+</a>
+</div>
+</div>
+<div class="flex flex-col space-y-2">
+<span class="text-[10px] font-label uppercase tracking-[0.3em] text-on-surface-variant/40 ml-1">Sanctuary</span>
+<div class="bg-surface-container-low/50 rounded-2xl overflow-hidden">
+<!-- Preferences -->
+<a class="flex items-center justify-between p-5 hover:bg-surface-container-low transition-colors group" href="#">
+<div class="flex items-center space-x-4">
+<span class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform">tune</span>
+<span class="text-sm font-headline tracking-wide text-on-surface">Preferences</span>
+</div>
+<span class="material-symbols-outlined text-outline-variant/40 text-sm">chevron_right</span>
+</a>
+<!-- Settings -->
+<a class="flex items-center justify-between p-5 hover:bg-surface-container-low transition-colors group" href="#">
+<div class="flex items-center space-x-4">
+<span class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform">settings</span>
+<span class="text-sm font-headline tracking-wide text-on-surface">Settings</span>
+</div>
+<span class="material-symbols-outlined text-outline-variant/40 text-sm">chevron_right</span>
+</a>
+</div>
+</div>
+</section>
+<!-- Footer Visual -->
+<footer class="mt-20 mb-12 text-center opacity-20">
+<div class="mb-4 flex justify-center">
+<span class="material-symbols-outlined text-4xl">auto_awesome</span>
+</div>
+<p class="text-[10px] font-label uppercase tracking-[0.4em]">Quietly Curated</p>
+</footer>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 pb-safe bg-[#ffffff]/90 backdrop-blur-xl dark:bg-zinc-900/90 shadow-[0_-4px_20px_rgba(0,0,0,0.02)]">
+<div class="flex justify-around items-center h-20 px-8 w-full">
+<div class="flex flex-col items-center text-zinc-400 dark:text-zinc-600 transition-transform duration-300 hover:text-zinc-600 dark:hover:text-zinc-300 cursor-pointer">
+<span class="material-symbols-outlined">local_dining</span>
+<span class="font-['Manrope'] text-[10px] uppercase tracking-widest mt-1">Taste</span>
+</div>
+<div class="flex flex-col items-center text-zinc-400 dark:text-zinc-600 transition-transform duration-300 hover:text-zinc-600 dark:hover:text-zinc-300 cursor-pointer">
+<span class="material-symbols-outlined">explore</span>
+<span class="font-['Manrope'] text-[10px] uppercase tracking-widest mt-1">Discover</span>
+</div>
+<div class="flex flex-col items-center text-zinc-400 dark:text-zinc-600 transition-transform duration-300 hover:text-zinc-600 dark:hover:text-zinc-300 cursor-pointer">
+<span class="material-symbols-outlined">shopping_cart</span>
+<span class="font-['Manrope'] text-[10px] uppercase tracking-widest mt-1">Cart</span>
+</div>
+<div class="flex flex-col items-center text-zinc-900 dark:text-white scale-110 transition-transform duration-300 cursor-pointer">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">account_circle</span>
+<span class="font-['Manrope'] text-[10px] uppercase tracking-widest mt-1">Identity</span>
+</div>
+</div>
+</nav>
+</body></html>

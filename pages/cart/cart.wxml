@@ -1,39 +1,53 @@
 <!--pages/cart/cart.wxml-->
 <view class="page">
+  <!-- 页面标题 -->
+  <view class="page-header">
+    <text class="page-title">购物车</text>
+    <text class="page-subtitle">SELECTED ESSENTIALS</text>
+  </view>
 
   <!-- 购物车为空 -->
   <view wx:if="{{cart.length === 0}}" class="empty">
     <text class="empty-icon">🛒</text>
-    <text class="empty-text">购物车是空的</text>
-    <view class="back-btn" bindtap="onBack">去点菜</view>
+    <text class="empty-text">Your sanctuary is quiet.</text>
+    <view class="back-btn" bindtap="onBack">Discover Objects</view>
   </view>
 
   <!-- 购物车列表 -->
-  <view wx:else>
+  <view wx:else class="content">
     <view class="cart-list">
       <view wx:for="{{cart}}" wx:key="dish.id" class="cart-item">
-        <view class="item-img-placeholder">
-          <text>🍽</text>
+        <view class="item-img">
+          <text class="item-emoji">🍽</text>
         </view>
-        <view class="item-info">
-          <text class="item-name">{{item.dish.name}}</text>
-          <text class="item-price">¥{{item.dish.price}}</text>
-        </view>
-        <view class="item-ctrl">
-          <view class="qty-btn minus" bindtap="onRemove" data-dish="{{item.dish}}">-</view>
-          <text class="qty-num">{{item.quantity}}</text>
-          <view class="qty-btn add" bindtap="onAdd" data-dish="{{item.dish}}">+</view>
+        <view class="item-details">
+          <view class="item-top">
+            <text class="item-name">{{item.dish.name}}</text>
+            <text class="item-remove" bindtap="onRemove" data-dish="{{item.dish}}">×</text>
+          </view>
+          <text class="item-desc">{{item.dish.description || 'Handcrafted'}}</text>
+          <view class="item-bottom">
+            <view class="qty-ctrl">
+              <text class="qty-btn minus" bindtap="onRemove" data-dish="{{item.dish}}">−</text>
+              <text class="qty-num">{{item.quantity}}</text>
+              <text class="qty-btn add" bindtap="onAdd" data-dish="{{item.dish}}">+</text>
+            </view>
+            <text class="item-price">¥{{item.dish.price * item.quantity}}</text>
+          </view>
         </view>
       </view>
     </view>
 
-    <!-- 底部结算栏 -->
-    <view class="checkout-bar">
-      <view class="total-wrap">
-        <text class="total-label">合计：</text>
-        <text class="total-price">¥{{cartTotal}}</text>
+    <!-- 底部结算区域 -->
+    <view class="checkout-section">
+      <view class="summary-row">
+        <text class="summary-label">小计</text>
+        <text class="summary-value">¥{{cartTotal}}</text>
       </view>
-      <view class="submit-btn" bindtap="onSubmit">提交订单</view>
+      <view class="checkout-btn" bindtap="onSubmit">
+        <text>下单</text>
+        <text class="arrow">→</text>
+      </view>
     </view>
   </view>
 

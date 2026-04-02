@@ -3,15 +3,30 @@ from typing import List, Optional
 from datetime import datetime
 
 
+# ---- MainCategory ----
+class MainCategoryOut(BaseModel):
+    id: int
+    name: str
+    code: str
+    model_config = {"from_attributes": True}
+
+
+class MainCategoryCreate(BaseModel):
+    name: str
+    code: str
+
+
 # ---- Category ----
 class CategoryOut(BaseModel):
     id: int
     name: str
+    main_category_id: int
     model_config = {"from_attributes": True}
 
 
 class CategoryCreate(BaseModel):
     name: str
+    main_category_id: int
 
 
 # ---- Dish ----
@@ -22,6 +37,8 @@ class DishOut(BaseModel):
     category_id: int
     image: Optional[str] = ""
     description: Optional[str] = ""
+    ingredients: Optional[str] = ""
+    instructions: Optional[str] = ""
     model_config = {"from_attributes": True}
 
 
@@ -31,6 +48,8 @@ class DishCreate(BaseModel):
     category_id: int
     image: str = ""
     description: str = ""
+    ingredients: str = ""
+    instructions: str = ""
 
 
 # ---- Order ----

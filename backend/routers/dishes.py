@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from database import get_db
-from models import Dish
+from models import Dish, Category
 from schemas import DishOut, DishCreate
 from typing import List, Optional
 import random as _random
@@ -10,10 +10,12 @@ router = APIRouter(prefix="/dishes", tags=["菜品"])
 
 
 @router.get("", response_model=List[DishOut])
-def get_dishes(category_id: Optional[int] = None, db: Session = Depends(get_db)):
+def get_dishes(category_id: Optional[int] = None, main_category_id: Optional[int] = None, db: Session = Depends(get_db)):
     query = db.query(Dish)
     if category_id:
         query = query.filter(Dish.category_id == category_id)
+    elif main_category_id:
+        query = query.join(Category).filter(Category.main_category_id == main_category_id)
     return query.all()
 
 
