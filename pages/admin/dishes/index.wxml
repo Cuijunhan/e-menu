@@ -1,0 +1,31 @@
+<view class="container">
+  <!-- 菜品列表 -->
+  <view class="dish-item" wx:for="{{dishes}}" wx:key="id">
+    <view class="dish-info">
+      <text class="dish-name">{{item.name}}</text>
+      <text class="dish-price">¥{{item.price}}</text>
+    </view>
+    <view class="dish-actions">
+      <button class="btn-edit" bindtap="editDish" data-dish="{{item}}">编辑</button>
+      <button class="btn-delete" bindtap="deleteDish" data-id="{{item.id}}">删除</button>
+    </view>
+  </view>
+
+  <!-- 新增/编辑表单 -->
+  <view class="form-card">
+    <text class="form-title">{{editingId ? '编辑菜品' : '新增菜品'}}</text>
+    <input class="input" placeholder="菜名 *" value="{{form.name}}" bindinput="onInput" data-field="name" />
+    <input class="input" placeholder="价格 *" value="{{form.price}}" bindinput="onInput" data-field="price" type="digit" />
+    <input class="input" placeholder="描述" value="{{form.description}}" bindinput="onInput" data-field="description" />
+    <input class="input" placeholder="分类 ID（从云数据库 categories 集合获取 _id）" value="{{form.category_id}}" bindinput="onInput" data-field="category_id" />
+    <view class="image-row">
+      <text class="input-label">菜品图片（可选）</text>
+      <button class="btn-upload" bindtap="uploadImage">{{form.image ? '已选择' : '选择图片'}}</button>
+    </view>
+    <image wx:if="{{form.image}}" src="{{form.image}}" class="preview-image" mode="aspectFill" />
+    <view class="form-btns">
+      <button class="btn-submit" bindtap="submitDish">{{editingId ? '保存修改' : '新增菜品'}}</button>
+      <button class="btn-cancel" wx:if="{{editingId}}" bindtap="cancelEdit">取消</button>
+    </view>
+  </view>
+</view>
