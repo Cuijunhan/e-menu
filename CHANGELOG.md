@@ -1,5 +1,19 @@
 # 更新日志
 
+## [未发布] - 2026-04-13
+
+### 重构
+- 后端完全迁移至微信云开发，彻底去除 FastAPI 服务器和 SQLite 数据库
+- 新增 6 个云函数：banners / categories / dishes / orders / reservations / admin
+- 云数据库替代 SQLite，使用 MongoDB 风格文档存储，订单明细嵌入订单文档
+- 云存储支持菜品图片和轮播图上传
+- 前端 API 调用从 wx.request HTTP 改为 wx.cloud.callFunction，移除 BASE_URL 配置
+- 用户身份由云函数通过 cloud.getWXContext().OPENID 自动获取，无需前端传递 user_id
+- 新增小程序内管理员页面（菜品管理、轮播图管理、数据初始化），替代原有 Web 管理界面
+- 管理员通过 openid 白名单鉴权
+
+---
+
 ## [未发布] - 2026-04-01
 
 ### 新增
