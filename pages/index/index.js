@@ -25,12 +25,15 @@ Page({
     }
     this.refreshCart();
 
-    // 检查是否有预选的主分类
-    const preSelectMainCategory = wx.getStorageSync('preSelectMainCategory');
-    if (preSelectMainCategory) {
+    const preSelect = wx.getStorageSync('preSelectMainCategory');
+    if (preSelect && this.data.mainCategories.length > 0) {
       wx.removeStorageSync('preSelectMainCategory');
-      this.setData({ activeMainCategoryId: preSelectMainCategory });
-      this.loadCategories(preSelectMainCategory);
+      const code = preSelect.replace(/__/g, '');
+      const match = this.data.mainCategories.find(mc => mc.code === code);
+      if (match) {
+        this.setData({ activeMainCategoryId: match.id });
+        this.loadCategories(match.id);
+      }
     }
   },
 
@@ -41,6 +44,20 @@ Page({
   async loadMainCategories() {
     const mainCats = await api.getMainCategories();
     this.setData({ mainCategories: mainCats });
+
+    // 检查是否有预选分类
+    const preSelect = wx.getStorageSync('preSelectMainCategory');
+    if (preSelect) {
+      wx.removeStorageSync('preSelectMainCategory');
+      const code = preSelect.replace(/__/g, '');
+      const match = mainCats.find(mc => mc.code === code);
+      if (match) {
+        this.setData({ activeMainCategoryId: match.id });
+        this.loadCategories(match.id);
+        return;
+      }
+    }
+
     if (mainCats.length > 0) {
       this.setData({ activeMainCategoryId: mainCats[0].id });
       this.loadCategories(mainCats[0].id);
@@ -65,7 +82,7 @@ Page({
 
   onCategoryTap(e) {
     const id = e.currentTarget.dataset.id;
-    const categoryId = (id === 0 || id === null) ? null : id;
+    const categoryId = (id === 0 || id === null || id === '') ? null : id;
     this.loadDishes(categoryId, this.data.activeMainCategoryId);
     this.setData({ activeCategoryId: categoryId });
   },
@@ -85,9 +102,7 @@ Page({
     this.setData({ showDishDetail: false });
   },
 
-  stopPropagation() {
-    // 阻止事件冒泡
-  },
+  stopPropagation() {},
 
   onAddTap(e) {
     const dish = e.currentTarget.dataset.dish;
@@ -124,27 +139,15 @@ Page({
   onScroll(e) {
     const scrollTop = e.detail.scrollTop;
     const delta = scrollTop - this.data.lastScrollTop;
-
-    // 清除之前的定时器
-    if (this.data.scrollTimer) {
-      clearTimeout(this.data.scrollTimer);
-    }
-
-    // 向下滚动隐藏，向上滚动显示
+    if (this.data.scrollTimer) clearTimeout(this.data.scrollTimer);
     if (delta > 5) {
       this.setData({ cartBarHidden: true });
     } else if (delta < -5) {
       this.setData({ cartBarHidden: false });
     }
-
-    // 停止滚动200ms后显示
     const timer = setTimeout(() => {
       this.setData({ cartBarHidden: false });
     }, 200);
-
-    this.setData({
-      lastScrollTop: scrollTop,
-      scrollTimer: timer
-    });
+    this.setData({ lastScrollTop: scrollTop, scrollTimer: timer });
   },
 });

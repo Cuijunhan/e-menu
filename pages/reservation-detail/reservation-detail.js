@@ -1,5 +1,5 @@
+// pages/reservation-detail/reservation-detail.js
 const api = require('../../utils/api');
-const app = getApp();
 
 Page({
   data: {
@@ -17,13 +17,13 @@ Page({
 
   async loadDetail() {
     try {
-      const list = await api.getReservations(app.globalData.userId);
-      const detail = list.find(item => item.id == this.data.id);
+      const list = await api.getReservations();
+      const detail = list.find(item => item.id === this.data.id);
       if (detail) {
         this.setData({
           detail: {
             ...detail,
-            create_time: detail.create_time.replace('T', ' ').substring(0, 16),
+            create_time: detail.create_time ? detail.create_time.replace('T', ' ').substring(0, 16) : '',
           },
           dishName: detail.dish_name,
           link: detail.link || '',
@@ -35,17 +35,9 @@ Page({
     }
   },
 
-  onDishNameInput(e) {
-    this.setData({ dishName: e.detail.value });
-  },
-
-  onLinkInput(e) {
-    this.setData({ link: e.detail.value });
-  },
-
-  onNoteInput(e) {
-    this.setData({ note: e.detail.value });
-  },
+  onDishNameInput(e) { this.setData({ dishName: e.detail.value }); },
+  onLinkInput(e) { this.setData({ link: e.detail.value }); },
+  onNoteInput(e) { this.setData({ note: e.detail.value }); },
 
   async save() {
     const { id, dishName, link, note } = this.data;
@@ -55,7 +47,6 @@ Page({
     }
     try {
       await api.updateReservation(id, {
-        user_id: app.globalData.userId,
         dish_name: dishName.trim(),
         link: link.trim(),
         note: note.trim(),

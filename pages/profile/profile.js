@@ -10,6 +10,7 @@ Page({
     avatarUrl: '',
     nickName: '家庭用户',
     hasAuth: false,
+    isAdmin: false,
   },
 
   onLoad() {
@@ -21,6 +22,29 @@ Page({
         hasAuth: true
       });
     }
+  },
+
+  onShow() {
+    if (typeof this.getTabBar === 'function' && this.getTabBar()) {
+      this.getTabBar().setData({ selected: 3 });
+    }
+    this.setData({
+      cartCount: app.getCartCount(),
+      balance: wx.getStorageSync('userBalance') || 0,
+    });
+    this._checkAdmin();
+  },
+
+  _checkAdmin() {
+    wx.cloud.callFunction({
+      name: 'admin',
+      data: { action: 'listDishes' },
+      success: r => {
+        const isAdmin = !r.result || !r.result.error;
+        this.setData({ isAdmin });
+      },
+      fail: () => this.setData({ isAdmin: false }),
+    });
   },
 
   onChooseAvatar(e) {
@@ -41,16 +65,6 @@ Page({
     }
   },
 
-  onShow() {
-    if (typeof this.getTabBar === 'function' && this.getTabBar()) {
-      this.getTabBar().setData({ selected: 3 });
-    }
-    this.setData({
-      cartCount: app.getCartCount(),
-      balance: wx.getStorageSync('userBalance') || 0
-    });
-  },
-
   onCouponTap() {
     this.showToast('尚未开放');
   },
@@ -64,9 +78,7 @@ Page({
 
   showToast(msg) {
     this.setData({ showToast: true, toastMsg: msg });
-    setTimeout(() => {
-      this.setData({ showToast: false });
-    }, 2000);
+    setTimeout(() => { this.setData({ showToast: false }); }, 2000);
   },
 
   goToOrders() {
@@ -75,5 +87,9 @@ Page({
 
   goToCart() {
     wx.switchTab({ url: '/pages/cart/cart' });
+  },
+
+  goToAdmin() {
+    wx.navigateTo({ url: '/pages/admin/index/index' });
   },
 });
