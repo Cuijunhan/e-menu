@@ -16,10 +16,7 @@ Page({
   },
 
   refreshCart() {
-    this.setData({
-      cart: app.globalData.cart,
-      cartTotal: app.getCartTotal(),
-    });
+    this.setData({ cart: app.globalData.cart, cartTotal: app.getCartTotal() });
   },
 
   onAdd(e) {
@@ -39,16 +36,15 @@ Page({
       wx.showToast({ title: "购物车是空的", icon: "none" });
       return;
     }
-
     const items = app.globalData.cart.map(item => ({
       dish_id: item.dish.id,
+      dish_name: item.dish.name,
       quantity: item.quantity,
       price: item.dish.price,
     }));
-
     wx.showLoading({ title: "提交中..." });
     try {
-      await api.createOrder({ user_id: app.globalData.userId, items });
+      await api.createOrder(items);
       app.clearCart();
       wx.hideLoading();
       wx.showToast({ title: "下单成功！", icon: "success" });

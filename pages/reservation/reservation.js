@@ -1,6 +1,5 @@
 // pages/reservation/reservation.js
 const api = require('../../utils/api');
-const app = getApp();
 
 Page({
   data: {
@@ -19,17 +18,9 @@ Page({
     this.loadList();
   },
 
-  onDishNameInput(e) {
-    this.setData({ dishName: e.detail.value });
-  },
-
-  onLinkInput(e) {
-    this.setData({ link: e.detail.value });
-  },
-
-  onNoteInput(e) {
-    this.setData({ note: e.detail.value });
-  },
+  onDishNameInput(e) { this.setData({ dishName: e.detail.value }); },
+  onLinkInput(e) { this.setData({ link: e.detail.value }); },
+  onNoteInput(e) { this.setData({ note: e.detail.value }); },
 
   async submit() {
     const { dishName, link, note } = this.data;
@@ -40,7 +31,6 @@ Page({
     this.setData({ submitting: true });
     try {
       await api.createReservation({
-        user_id: app.globalData.userId,
         dish_name: dishName.trim(),
         link: link.trim(),
         note: note.trim(),
@@ -57,11 +47,10 @@ Page({
 
   async loadList() {
     try {
-      const list = await api.getReservations(app.globalData.userId);
-      // 格式化时间
+      const list = await api.getReservations();
       const fmt = list.map(r => ({
         ...r,
-        create_time: r.create_time.replace('T', ' ').substring(0, 16),
+        create_time: r.create_time ? r.create_time.replace('T', ' ').substring(0, 16) : '',
       }));
       this.setData({ list: fmt });
     } catch (e) {

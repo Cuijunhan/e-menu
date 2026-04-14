@@ -7,7 +7,10 @@
     "pages/profile/profile",
     "pages/random/random",
     "pages/reservation/reservation",
-    "pages/reservation-detail/reservation-detail"
+    "pages/reservation-detail/reservation-detail",
+    "pages/admin/index/index",
+    "pages/admin/dishes/index",
+    "pages/admin/banners/index"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -23,22 +26,10 @@
     "borderStyle": "white",
     "backgroundColor": "#ffffff",
     "list": [
-      {
-        "pagePath": "pages/home/home",
-        "text": "HOME"
-      },
-      {
-        "pagePath": "pages/index/index",
-        "text": "TASTE"
-      },
-      {
-        "pagePath": "pages/cart/cart",
-        "text": "CART"
-      },
-      {
-        "pagePath": "pages/profile/profile",
-        "text": "IDENTITY"
-      }
+      { "pagePath": "pages/home/home", "text": "HOME" },
+      { "pagePath": "pages/index/index", "text": "TASTE" },
+      { "pagePath": "pages/cart/cart", "text": "CART" },
+      { "pagePath": "pages/profile/profile", "text": "IDENTITY" }
     ]
   },
   "sitemapLocation": "sitemap.json"

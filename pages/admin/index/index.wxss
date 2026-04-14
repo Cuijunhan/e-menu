@@ -1,0 +1,13 @@
+.container { padding: 20rpx; }
+.menu-item {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 30rpx 24rpx;
+  margin-bottom: 20rpx;
+}
+.icon { font-size: 44rpx; margin-right: 20rpx; }
+.label { flex: 1; font-size: 32rpx; color: #333; }
+.arrow { font-size: 40rpx; color: #ccc; }
+.init-btn { background: #fff7f0; }

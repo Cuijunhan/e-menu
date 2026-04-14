@@ -1,53 +1,44 @@
-// utils/api.js - 统一封装后端请求
-const BASE_URL = "http://114.67.227.216:8000";
-
-function request(method, path, data) {
+// utils/api.js - 统一封装云函数请求
+function call(name, data = {}) {
   return new Promise((resolve, reject) => {
-    wx.request({
-      url: BASE_URL + path,
-      method,
+    wx.cloud.callFunction({
+      name,
       data,
-      header: { "Content-Type": "application/json" },
-      success: res => {
-        if (res.statusCode >= 200 && res.statusCode < 300) {
-          resolve(res.data);
-        } else {
-          wx.showToast({ title: "请求失败", icon: "error" });
-          reject(res);
-        }
-      },
+      success: res => resolve(res.result),
       fail: err => {
-        wx.showToast({ title: "网络错误", icon: "error" });
-        reject(err);
+        wx.showToast({ title: '网络错误', icon: 'error' })
+        reject(err)
       },
-    });
-  });
+    })
+  })
 }
 
 module.exports = {
-  getBanners: () => request("GET", "/banners"),
-  getMainCategories: () => request("GET", "/api/main-categories"),
-  getCategories: (mainCategoryId) => {
-    const path = mainCategoryId ? `/categories?main_category_id=${mainCategoryId}` : "/categories";
-    return request("GET", path);
-  },
-  getDishes: (categoryId, mainCategoryId) => {
-    let path = "/dishes";
-    if (categoryId) {
-      path += `?category_id=${categoryId}`;
-    } else if (mainCategoryId) {
-      path += `?main_category_id=${mainCategoryId}`;
-    }
-    console.log('getDishes API 调用:', { categoryId, mainCategoryId, path });
-    return request("GET", path);
-  },
-  getRandomDishes: (count = 5) => request("GET", `/dishes/random?count=${count}`),
-  createOrder: (payload) => request("POST", "/orders", payload),
-  getOrders: (userId) => request("GET", `/orders?user_id=${userId}`),
-  deleteOrder: (id) => request("DELETE", `/orders/${id}`),
+  // 轮播图
+  getBanners: () => call('banners'),
+
+  // 分类
+  getMainCategories: () => call('categories', { action: 'listMain' }),
+  getCategories: (mainCategoryId) => call('categories', { action: 'list', mainCategoryId }),
+
+  // 菜品
+  getDishes: (categoryId, mainCategoryId) =>
+    call('dishes', { action: 'list', categoryId, mainCategoryId }),
+  getRandomDishes: (count = 5) => call('dishes', { action: 'random', count }),
+  getDish: (id) => call('dishes', { action: 'get', id }),
+
+  // 订单（openid 由云函数从 wx.cloud 上下文自动获取，无需前端传递）
+  createOrder: (items) => call('orders', { action: 'create', items }),
+  getOrders: () => call('orders', { action: 'list' }),
+  deleteOrder: (id) => call('orders', { action: 'delete', id }),
+
   // 预约
-  createReservation: (payload) => request("POST", "/reservations", payload),
-  getReservations: (userId) => request("GET", `/reservations?user_id=${userId}`),
-  updateReservation: (id, payload) => request("PUT", `/reservations/${id}`, payload),
-  deleteReservation: (id) => request("DELETE", `/reservations/${id}`),
-};
+  createReservation: (payload) => call('reservations', { action: 'create', ...payload }),
+  getReservations: () => call('reservations', { action: 'list' }),
+  updateReservation: (id, payload) =>
+    call('reservations', { action: 'update', id, ...payload }),
+  deleteReservation: (id) => call('reservations', { action: 'delete', id }),
+
+  // 管理员
+  adminAction: (action, data = {}) => call('admin', { action, ...data }),
+}

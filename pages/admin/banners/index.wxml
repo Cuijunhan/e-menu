@@ -1,0 +1,27 @@
+<view class="container">
+  <view class="banner-item" wx:for="{{banners}}" wx:key="id">
+    <image src="{{item.image}}" class="thumb" mode="aspectFill" />
+    <view class="banner-info">
+      <text class="sort">排序: {{item.sort_order}}</text>
+      <text class="active">{{item.is_active ? '已启用' : '已停用'}}</text>
+    </view>
+    <view class="banner-actions">
+      <button class="btn-toggle" bindtap="toggleBanner" data-id="{{item.id}}" data-active="{{item.is_active}}">
+        {{item.is_active ? '停用' : '启用'}}
+      </button>
+      <button class="btn-delete" bindtap="deleteBanner" data-id="{{item.id}}">删除</button>
+    </view>
+  </view>
+
+  <view class="form-card">
+    <text class="form-title">新增轮播图</text>
+    <view class="image-row">
+      <text class="input-label">选择图片 *</text>
+      <button class="btn-upload" bindtap="uploadImage">{{form.image ? '已选择' : '选择图片'}}</button>
+    </view>
+    <image wx:if="{{form.image}}" src="{{form.image}}" class="preview-image" mode="aspectFill" />
+    <input class="input" placeholder="标题（可选）" value="{{form.title}}" bindinput="onTitleInput" />
+    <input class="input" placeholder="排序数字（默认 0）" value="{{form.sort_order}}" bindinput="onSortInput" type="number" />
+    <button class="btn-submit" bindtap="addBanner">新增轮播图</button>
+  </view>
+</view>
