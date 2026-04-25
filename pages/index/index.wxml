@@ -1,35 +1,29 @@
 <!--pages/index/index.wxml-->
 <view class="page">
   <!-- 顶部导航栏 -->
-  <view class="header">
-    <view class="header-left"></view>
+  <view class="header" style="padding-top: {{statusBarHeight}}px;">
     <text class="header-title">THE CURATED</text>
-    <view class="header-right">
-      <text class="cart-icon-small">🛒</text>
+    <!-- 三个固定类型 Tab -->
+    <view class="type-tabs">
+      <view
+        wx:for="{{types}}"
+        wx:key="key"
+        class="type-tab {{activeType === item.key ? 'active' : ''}}"
+        bindtap="onTypeTap"
+        data-key="{{item.key}}"
+      >{{item.label}}</view>
     </view>
   </view>
 
   <!-- 主内容区：左侧分类 + 右侧菜品 -->
-  <view class="main">
+  <view class="main" style="padding-top: {{headerHeight}}px;">
 
     <!-- 左侧分类栏 -->
     <scroll-view class="cat-sidebar" scroll-y>
-      <!-- 主分类 -->
-      <view
-        wx:for="{{mainCategories}}"
-        wx:key="id"
-        class="main-cat-item {{activeMainCategoryId === item.id ? 'active' : ''}}"
-        bindtap="onMainCategoryTap"
-        data-id="{{item.id}}"
-      >{{item.name}}</view>
-
-      <view class="cat-divider"></view>
-
-      <!-- 子分类 -->
       <view
         class="cat-item {{activeCategoryId === null ? 'active' : ''}}"
         bindtap="onCategoryTap"
-        data-id="{{0}}"
+        data-id=""
       >全部</view>
       <view
         wx:for="{{categories}}"
@@ -49,8 +43,9 @@
         bindtap="onDishTap"
         data-dish="{{item}}"
       >
-        <view class="dish-img-placeholder">
-          <text class="dish-emoji">🍽</text>
+        <view class="dish-img-wrap">
+          <image wx:if="{{item.image}}" class="dish-img" src="{{item.image}}" mode="aspectFill"/>
+          <view wx:else class="dish-img-placeholder"><text class="dish-emoji">🍽</text></view>
         </view>
         <view class="dish-info">
           <text class="dish-name">{{item.name}}</text>
@@ -68,11 +63,7 @@
                 wx:if="{{dishQuantities[item.id] > 0}}"
                 class="qty-num"
               >{{dishQuantities[item.id]}}</text>
-              <view
-                class="qty-btn add"
-                catchtap="onAddTap"
-                data-dish="{{item}}"
-              >+</view>
+              <view class="qty-btn add" catchtap="onAddTap" data-dish="{{item}}">+</view>
             </view>
           </view>
         </view>
@@ -106,29 +97,46 @@
   <!-- 菜品详情弹窗 -->
   <view wx:if="{{showDishDetail}}" class="dish-modal" catchtap="closeDishDetail">
     <view class="dish-modal-content" catchtap="stopPropagation">
-      <view class="modal-header">
-        <text class="modal-title">{{selectedDish.name}}</text>
-        <text class="modal-close" catchtap="closeDishDetail">×</text>
-      </view>
-      <scroll-view class="modal-body" scroll-y>
-        <view class="modal-section">
-          <text class="section-label">价格</text>
-          <text class="section-value">¥{{selectedDish.price}}</text>
+      <scroll-view class="modal-scroll" scroll-y>
+        <!-- 菜品图片 -->
+        <view class="modal-img-wrap">
+          <image wx:if="{{selectedDish.image}}" class="modal-img" src="{{selectedDish.image}}" mode="aspectFill"/>
+          <view wx:else class="modal-img-placeholder">
+            <text class="modal-img-emoji">🍽</text>
+          </view>
         </view>
-        <view class="modal-section" wx:if="{{selectedDish.description}}">
-          <text class="section-label">简介</text>
-          <text class="section-value">{{selectedDish.description}}</text>
+
+        <!-- 名称 + 价格 -->
+        <view class="modal-info">
+          <view class="modal-name-row">
+            <text class="modal-title">{{selectedDish.name}}</text>
+            <text class="modal-price">¥{{selectedDish.price}}</text>
+          </view>
+          <text wx:if="{{selectedDish.description}}" class="modal-desc">{{selectedDish.description}}</text>
         </view>
-        <view class="modal-section" wx:if="{{selectedDish.ingredients}}">
-          <text class="section-label">食材</text>
-          <text class="section-value">{{selectedDish.ingredients}}</text>
+
+        <!-- 详细信息 -->
+        <view class="modal-sections">
+          <view class="modal-section" wx:if="{{selectedDish.ingredients}}">
+            <text class="section-label">原材料准备</text>
+            <text class="section-value">{{selectedDish.ingredients}}</text>
+          </view>
+          <view class="modal-section" wx:if="{{selectedDish.instructions}}">
+            <text class="section-label">做法步骤</text>
+            <text class="section-value">{{selectedDish.instructions}}</text>
+          </view>
+          <view class="modal-section" wx:if="{{selectedDish.notes}}">
+            <text class="section-label">注意事项</text>
+            <text class="section-value">{{selectedDish.notes}}</text>
+          </view>
         </view>
-        <view class="modal-section" wx:if="{{selectedDish.instructions}}">
-          <text class="section-label">做法</text>
-          <text class="section-value">{{selectedDish.instructions}}</text>
-        </view>
+
+        <view style="height: 48rpx;"></view>
       </scroll-view>
     </view>
+
+    <!-- 关闭按钮：弹窗正下方居中 -->
+    <view class="modal-close-btn" catchtap="closeDishDetail">×</view>
   </view>
 
 </view>

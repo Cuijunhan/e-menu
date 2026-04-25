@@ -1,84 +1,57 @@
-// pages/profile/profile.js
 const app = getApp();
 
 Page({
   data: {
     cartCount: 0,
-    balance: 0,
-    showToast: false,
-    toastMsg: '',
-    avatarUrl: '',
-    nickName: '家庭用户',
-    hasAuth: false,
+    nickname: '',
+    avatar: '',
+    familyName: '',
+    role: '',
     isAdmin: false,
+    inviteCode: '',
+    loading: true,
   },
 
-  onLoad() {
-    const userInfo = wx.getStorageSync('userInfo');
-    if (userInfo && userInfo.avatarUrl) {
-      this.setData({
-        avatarUrl: userInfo.avatarUrl,
-        nickName: userInfo.nickName || '家庭用户',
-        hasAuth: true
-      });
-    }
+  async onLoad() {
+    await this._loadProfile()
   },
 
   onShow() {
     if (typeof this.getTabBar === 'function' && this.getTabBar()) {
       this.getTabBar().setData({ selected: 3 });
     }
-    this.setData({
-      cartCount: app.getCartCount(),
-      balance: wx.getStorageSync('userBalance') || 0,
-    });
-    this._checkAdmin();
+    this.setData({ cartCount: app.getCartCount() });
+    this._loadProfile();
   },
 
-  _checkAdmin() {
-    wx.cloud.callFunction({
-      name: 'admin',
-      data: { action: 'listDishes' },
-      success: r => {
-        const isAdmin = !r.result || !r.result.error;
-        this.setData({ isAdmin });
-      },
-      fail: () => this.setData({ isAdmin: false }),
-    });
-  },
-
-  onChooseAvatar(e) {
-    const { avatarUrl } = e.detail;
-    this.setData({ avatarUrl, hasAuth: true });
-    const userInfo = wx.getStorageSync('userInfo') || {};
-    userInfo.avatarUrl = avatarUrl;
-    wx.setStorageSync('userInfo', userInfo);
-  },
-
-  onNicknameBlur(e) {
-    const nickName = e.detail.value;
-    if (nickName) {
-      this.setData({ nickName });
-      const userInfo = wx.getStorageSync('userInfo') || {};
-      userInfo.nickName = nickName;
-      wx.setStorageSync('userInfo', userInfo);
+  async _loadProfile() {
+    this.setData({ loading: true })
+    try {
+      const r = await wx.cloud.callFunction({ name: 'user', data: { action: 'getProfile' } })
+      const p = r.result || {}
+      this.setData({
+        nickname: p.nickname || '未命名',
+        avatar: p.avatar || '',
+        familyName: p.family_name || '',
+        role: p.role || '',
+        isAdmin: p.role === 'admin',
+        inviteCode: p.invite_code || '',
+        loading: false,
+      })
+    } catch (e) {
+      this.setData({ loading: false })
     }
   },
 
-  onCouponTap() {
-    this.showToast('尚未开放');
+  copyInviteCode() {
+    wx.setClipboardData({
+      data: this.data.inviteCode,
+      success: () => wx.showToast({ title: '已复制邀请码', icon: 'success' }),
+    })
   },
 
-  onRecharge() {
-    const newBalance = this.data.balance + 1000000;
-    wx.setStorageSync('userBalance', newBalance);
-    this.setData({ balance: newBalance });
-    this.showToast('充值成功 +¥1,000,000');
-  },
-
-  showToast(msg) {
-    this.setData({ showToast: true, toastMsg: msg });
-    setTimeout(() => { this.setData({ showToast: false }); }, 2000);
+  goToEditProfile() {
+    wx.navigateTo({ url: '/pages/profile-edit/index' });
   },
 
   goToOrders() {
@@ -91,5 +64,34 @@ Page({
 
   goToAdmin() {
     wx.navigateTo({ url: '/pages/admin/index/index' });
+  },
+
+  leaveFamily() {
+    wx.showModal({
+      title: '退出家庭',
+      content: this.data.isAdmin
+        ? '你是管理员，退出前请确保还有其他管理员，否则无法退出。确定退出？'
+        : '确定退出当前家庭？',
+      confirmColor: '#e74c3c',
+      success: async (res) => {
+        if (!res.confirm) return
+        wx.showLoading({ title: '退出中...' })
+        try {
+          const r = await wx.cloud.callFunction({ name: 'user', data: { action: 'leaveFamily' } })
+          wx.hideLoading()
+          if (r.result && r.result.ok) {
+            app.globalData.familyId = null
+            app.globalData.role = null
+            app.globalData.isAdmin = false
+            wx.reLaunch({ url: '/pages/onboarding/index' })
+          } else {
+            wx.showToast({ title: r.result.error || '退出失败', icon: 'error' })
+          }
+        } catch (e) {
+          wx.hideLoading()
+          wx.showToast({ title: '退出失败', icon: 'error' })
+        }
+      },
+    })
   },
 });

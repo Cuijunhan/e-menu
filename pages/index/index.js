@@ -1,22 +1,37 @@
-// pages/index/index.js
-const api = require("../../utils/api");
+const api = require('../../utils/api');
 const app = getApp();
+
+// 三种固定类型，顺序固定
+const TYPES = [
+  { key: 'food',   label: '饭菜',  storageKey: '__food__' },
+  { key: 'coffee', label: '咖啡',  storageKey: '__coffee__' },
+  { key: 'drink',  label: '酒水',  storageKey: '__wine__' },
+]
 
 Page({
   data: {
-    mainCategories: [],
+    types: TYPES,
+    activeType: 'food',
     categories: [],
     dishes: [],
-    activeMainCategoryId: null,
     activeCategoryId: null,
     cartCount: 0,
-    cartTotal: "0.00",
+    cartTotal: '0.00',
     dishQuantities: {},
     cartBarHidden: false,
     lastScrollTop: 0,
-    scrollTimer: null,
     showDishDetail: false,
     selectedDish: {},
+    statusBarHeight: 0,
+    headerHeight: 0,
+  },
+
+  onLoad() {
+    const { statusBarHeight = 20 } = wx.getSystemInfoSync();
+    // header = 状态栏 + 标题行(约40px) + tab行(约46px)
+    const headerHeight = statusBarHeight + 40 + 46;
+    this.setData({ statusBarHeight, headerHeight });
+    this._initType();
   },
 
   onShow() {
@@ -25,72 +40,61 @@ Page({
     }
     this.refreshCart();
 
-    const preSelect = wx.getStorageSync('preSelectMainCategory');
-    if (preSelect && this.data.mainCategories.length > 0) {
-      wx.removeStorageSync('preSelectMainCategory');
-      const code = preSelect.replace(/__/g, '');
-      const match = this.data.mainCategories.find(mc => mc.code === code);
-      if (match) {
-        this.setData({ activeMainCategoryId: match.id });
-        this.loadCategories(match.id);
-      }
-    }
-  },
-
-  onLoad() {
-    this.loadMainCategories();
-  },
-
-  async loadMainCategories() {
-    const mainCats = await api.getMainCategories();
-    this.setData({ mainCategories: mainCats });
-
-    // 检查是否有预选分类
+    // 处理从首页跳转过来的预选类型
     const preSelect = wx.getStorageSync('preSelectMainCategory');
     if (preSelect) {
       wx.removeStorageSync('preSelectMainCategory');
-      const code = preSelect.replace(/__/g, '');
-      const match = mainCats.find(mc => mc.code === code);
-      if (match) {
-        this.setData({ activeMainCategoryId: match.id });
-        this.loadCategories(match.id);
+      const match = TYPES.find(t => t.storageKey === preSelect);
+      if (match && match.key !== this.data.activeType) {
+        this.switchType(match.key);
         return;
       }
     }
+  },
 
-    if (mainCats.length > 0) {
-      this.setData({ activeMainCategoryId: mainCats[0].id });
-      this.loadCategories(mainCats[0].id);
+  _initType() {
+    const preSelect = wx.getStorageSync('preSelectMainCategory');
+    let initKey = 'food';
+    if (preSelect) {
+      wx.removeStorageSync('preSelectMainCategory');
+      const match = TYPES.find(t => t.storageKey === preSelect);
+      if (match) initKey = match.key;
     }
+    this.switchType(initKey);
   },
 
-  async loadCategories(mainCategoryId) {
-    const cats = await api.getCategories(mainCategoryId);
-    this.setData({
-      categories: cats,
-      activeCategoryId: null,
-      activeMainCategoryId: mainCategoryId
-    });
-    this.loadDishes(null, mainCategoryId);
+  switchType(key) {
+    this.setData({ activeType: key, categories: [], dishes: [], activeCategoryId: null });
+    this._loadCategories(key);
+    this._loadDishes(key, null);
   },
 
-  async loadDishes(categoryId, mainCategoryId) {
-    const dishes = await api.getDishes(categoryId, mainCategoryId || this.data.activeMainCategoryId);
-    this.setData({ dishes, activeCategoryId: categoryId });
-    this.refreshCart();
+  onTypeTap(e) {
+    const key = e.currentTarget.dataset.key;
+    if (key === this.data.activeType) return;
+    this.switchType(key);
+  },
+
+  async _loadCategories(type) {
+    try {
+      const cats = await api.getCategories(type);
+      if (Array.isArray(cats)) {
+        this.setData({ categories: cats });
+      }
+    } catch (e) {}
+  },
+
+  async _loadDishes(type, categoryId) {
+    try {
+      const dishes = await api.getDishes(type, categoryId);
+      this.setData({ dishes: Array.isArray(dishes) ? dishes : [], activeCategoryId: categoryId });
+      this.refreshCart();
+    } catch (e) {}
   },
 
   onCategoryTap(e) {
-    const id = e.currentTarget.dataset.id;
-    const categoryId = (id === 0 || id === null || id === '') ? null : id;
-    this.loadDishes(categoryId, this.data.activeMainCategoryId);
-    this.setData({ activeCategoryId: categoryId });
-  },
-
-  onMainCategoryTap(e) {
-    const id = e.currentTarget.dataset.id;
-    this.setData({ activeMainCategoryId: id });
-    this.loadCategories(id);
+    const id = e.currentTarget.dataset.id || null;
+    this._loadDishes(this.data.activeType, id);
   },
 
   onDishTap(e) {
@@ -130,24 +134,21 @@ Page({
 
   goToCart() {
     if (app.getCartCount() === 0) {
-      wx.showToast({ title: "购物车是空的", icon: "none" });
+      wx.showToast({ title: '购物车是空的', icon: 'none' });
       return;
     }
-    wx.switchTab({ url: "/pages/cart/cart" });
+    wx.switchTab({ url: '/pages/cart/cart' });
   },
 
   onScroll(e) {
     const scrollTop = e.detail.scrollTop;
     const delta = scrollTop - this.data.lastScrollTop;
-    if (this.data.scrollTimer) clearTimeout(this.data.scrollTimer);
     if (delta > 5) {
       this.setData({ cartBarHidden: true });
     } else if (delta < -5) {
       this.setData({ cartBarHidden: false });
     }
-    const timer = setTimeout(() => {
-      this.setData({ cartBarHidden: false });
-    }, 200);
-    this.setData({ lastScrollTop: scrollTop, scrollTimer: timer });
+    setTimeout(() => this.setData({ cartBarHidden: false }), 200);
+    this.setData({ lastScrollTop: scrollTop });
   },
 });

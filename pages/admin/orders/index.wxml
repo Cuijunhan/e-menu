@@ -1,0 +1,111 @@
+<view class="page">
+  <view class="header">
+    <text class="back" bindtap="goBack">‹</text>
+    <text class="header-title">订单管理</text>
+    <view style="width:80rpx;"></view>
+  </view>
+
+  <scroll-view class="content" scroll-y>
+    <text class="section-label">ALL ORDERS ({{orders.length}})</text>
+
+    <view class="order-card" wx:for="{{orders}}" wx:key="id">
+      <view class="order-header">
+        <view class="order-id-wrap">
+          <text class="order-label">ORDER</text>
+          <text class="order-id">{{item.display_id}}</text>
+        </view>
+        <view class="status-tag {{item.status === '已完成' ? 'done' : 'pending'}}">
+          {{item.status}}
+        </view>
+      </view>
+
+      <view class="order-user">
+        <view class="user-avatar">
+          <text class="user-avatar-text">{{item.user_initial}}</text>
+        </view>
+        <text class="user-name">{{item.user_nickname}}</text>
+      </view>
+
+      <view class="order-items">
+        <view class="order-item" wx:for="{{item.items}}" wx:key="index" wx:for-item="dish">
+          <text class="item-name">{{dish.dish_name}}</text>
+          <text class="item-qty">×{{dish.quantity}}</text>
+          <text class="item-price">¥{{dish.price}}</text>
+        </view>
+      </view>
+
+      <view class="order-footer">
+        <text class="order-time">{{item.create_time}}</text>
+        <text class="order-total">¥{{item.total_price}}</text>
+      </view>
+
+      <view class="btn-ingredients" bindtap="openIngredients" data-id="{{item.id}}" data-display-id="{{item.display_id}}">
+        查看食材汇总 ›
+      </view>
+
+      <view class="order-actions">
+        <view
+          class="btn-action {{item.status === '已完成' ? 'revert' : 'complete'}}"
+          bindtap="toggleStatus"
+          data-id="{{item.id}}"
+          data-status="{{item.status}}"
+        >
+          {{item.status === '已完成' ? '撤回' : '标记完成'}}
+        </view>
+        <view class="btn-action delete" bindtap="deleteOrder" data-id="{{item.id}}">删除</view>
+      </view>
+    </view>
+
+    <view class="empty" wx:if="{{orders.length === 0}}">
+      <text>暂无订单</text>
+    </view>
+
+    <view style="height:120rpx;"></view>
+  </scroll-view>
+
+  <!-- 食材汇总弹窗 -->
+  <view wx:if="{{showIngredients}}" class="ingr-modal" catchtap="closeIngredients">
+    <view class="ingr-panel" catchtap="">
+      <view class="ingr-header">
+        <text class="ingr-title">ORDER #{{ingredientOrder}} 食材汇总</text>
+        <text class="ingr-close" bindtap="closeIngredients">×</text>
+      </view>
+
+      <scroll-view class="ingr-scroll" scroll-y>
+        <view wx:if="{{ingredientLoading}}" class="ingr-loading"><text>加载中...</text></view>
+
+        <!-- 各菜品食材明细 -->
+        <view wx:for="{{ingredientItems}}" wx:key="index" class="ingr-dish-block">
+          <view class="ingr-dish-header">
+            <text class="ingr-dish-name">{{item.dish_name}}</text>
+            <text class="ingr-dish-qty">× {{item.quantity}}</text>
+          </view>
+          <view wx:if="{{item.ingredient_list.length > 0}}">
+            <view class="ingr-ing-row" wx:for="{{item.ingredient_list}}" wx:key="id" wx:for-item="ing">
+              <text class="ingr-ing-name">{{ing.name}}</text>
+              <text class="ingr-ing-amount">{{ing.amount}} {{ing.unit}} × {{item.quantity}}</text>
+            </view>
+          </view>
+          <view wx:if="{{item.instructions}}" class="ingr-section" style="margin-top:16rpx;">
+            <text class="ingr-section-label">做法步骤</text>
+            <text class="ingr-section-value">{{item.instructions}}</text>
+          </view>
+          <view wx:if="{{item.ingredient_list.length === 0 && !item.instructions}}" class="ingr-empty-dish">
+            <text>暂无食材信息</text>
+          </view>
+        </view>
+
+        <!-- 食材总汇总 -->
+        <view wx:if="{{ingredientSummary.length > 0}}" class="ingr-summary-block">
+          <text class="ingr-summary-title">TOTAL 食材汇总</text>
+          <view class="ingr-summary-row" wx:for="{{ingredientSummary}}" wx:key="name">
+            <text class="ingr-summary-name">{{item.name}}</text>
+            <text class="ingr-summary-total">{{item.total}} {{item.unit}}</text>
+          </view>
+        </view>
+
+        <view style="height:32rpx;"></view>
+      </scroll-view>
+    </view>
+  </view>
+</view>

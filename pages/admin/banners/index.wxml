@@ -1,27 +1,76 @@
-<view class="container">
-  <view class="banner-item" wx:for="{{banners}}" wx:key="id">
-    <image src="{{item.image}}" class="thumb" mode="aspectFill" />
-    <view class="banner-info">
-      <text class="sort">排序: {{item.sort_order}}</text>
-      <text class="active">{{item.is_active ? '已启用' : '已停用'}}</text>
-    </view>
-    <view class="banner-actions">
-      <button class="btn-toggle" bindtap="toggleBanner" data-id="{{item.id}}" data-active="{{item.is_active}}">
-        {{item.is_active ? '停用' : '启用'}}
-      </button>
-      <button class="btn-delete" bindtap="deleteBanner" data-id="{{item.id}}">删除</button>
-    </view>
+<view class="page">
+  <view class="header">
+    <text class="back" bindtap="goBack">‹</text>
+    <text class="header-title">轮播图管理</text>
+    <view style="width:80rpx;"></view>
   </view>
 
-  <view class="form-card">
-    <text class="form-title">新增轮播图</text>
-    <view class="image-row">
-      <text class="input-label">选择图片 *</text>
-      <button class="btn-upload" bindtap="uploadImage">{{form.image ? '已选择' : '选择图片'}}</button>
+  <scroll-view class="content" scroll-y>
+    <text class="section-label">BANNERS ({{banners.length}})</text>
+
+    <view class="banner-row" wx:for="{{banners}}" wx:key="id">
+      <image src="{{item.image}}" class="banner-thumb" mode="aspectFill" />
+      <view class="banner-info">
+        <text class="banner-title">{{item.title || '(无标题)'}}</text>
+        <text class="banner-meta">排序 {{item.sort_order}} · {{item.is_active ? '已启用' : '已停用'}}</text>
+      </view>
+      <view class="banner-btns">
+        <view class="btn-sm edit" bindtap="editBanner" data-banner="{{item}}">编辑</view>
+        <view class="btn-sm {{item.is_active ? 'off' : 'on'}}" bindtap="toggleBanner" data-id="{{item.id}}" data-active="{{item.is_active}}">
+          {{item.is_active ? '停用' : '启用'}}
+        </view>
+        <view class="btn-sm del" bindtap="deleteBanner" data-id="{{item.id}}">删除</view>
+      </view>
     </view>
-    <image wx:if="{{form.image}}" src="{{form.image}}" class="preview-image" mode="aspectFill" />
-    <input class="input" placeholder="标题（可选）" value="{{form.title}}" bindinput="onTitleInput" />
-    <input class="input" placeholder="排序数字（默认 0）" value="{{form.sort_order}}" bindinput="onSortInput" type="number" />
-    <button class="btn-submit" bindtap="addBanner">新增轮播图</button>
+
+    <view class="empty" wx:if="{{banners.length === 0}}"><text>暂无轮播图</text></view>
+
+    <!-- 新增 / 编辑 表单 -->
+    <text class="section-label" style="margin-top:48rpx;">{{editingId ? 'EDIT BANNER' : 'NEW BANNER'}}</text>
+
+    <view class="form-card">
+      <view class="field" bindtap="chooseImage">
+        <text class="field-label">图片 *</text>
+        <text class="field-value {{form.image ? '' : 'placeholder'}}">{{form.image ? '已选择 ✓' : '选择图片'}}</text>
+      </view>
+      <image wx:if="{{form.image}}" src="{{form.image}}" class="preview-img" mode="aspectFill" />
+      <view class="divider"></view>
+      <view class="field">
+        <text class="field-label">标题</text>
+        <input class="field-input" placeholder="可选" value="{{form.title}}" bindinput="onTitleInput" />
+      </view>
+      <view class="divider"></view>
+      <view class="field">
+        <text class="field-label">排序</text>
+        <input class="field-input" placeholder="数字越小越靠前" value="{{form.sort_order}}" bindinput="onSortInput" type="number" />
+      </view>
+    </view>
+
+    <view class="hint-text">建议上传尺寸：750 × 300px（宽高比 5:2）</view>
+
+    <view class="btn-row">
+      <view wx:if="{{editingId}}" class="btn-cancel" bindtap="cancelEdit">取消编辑</view>
+      <view class="btn-primary" bindtap="saveBanner">{{editingId ? '保存修改' : '新增轮播图'}}</view>
+    </view>
+
+    <view style="height:120rpx;"></view>
+  </scroll-view>
+
+  <!-- 图片预览确认弹窗 -->
+  <view wx:if="{{showPreview}}" class="preview-modal" catchtap="">
+    <view class="preview-box">
+      <view class="preview-modal-header">
+        <text class="preview-modal-title">预览轮播图效果</text>
+        <text class="preview-modal-close" bindtap="cancelPreview">×</text>
+      </view>
+      <view class="preview-frame">
+        <image src="{{previewSrc}}" class="preview-frame-img" mode="aspectFill" />
+      </view>
+      <text class="preview-hint">图片将按 1:1 比例裁切显示</text>
+      <view class="preview-actions">
+        <view class="btn-cancel" bindtap="chooseImage">重新选择</view>
+        <view class="btn-primary" bindtap="confirmPreview">确认使用</view>
+      </view>
+    </view>
   </view>
 </view>

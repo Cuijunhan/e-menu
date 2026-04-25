@@ -16,8 +16,9 @@ Page({
     this.setData({ loading: true });
     try {
       const orders = await api.getOrders();
-      const formatted = orders.map(o => ({
+      const formatted = orders.map((o, i) => ({
         ...o,
+        display_id: String(i + 1),
         create_time: o.create_time ? o.create_time.replace('T', ' ').substring(0, 16) : '',
         expanded: false,
       }));

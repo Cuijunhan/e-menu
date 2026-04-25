@@ -45,18 +45,18 @@
   padding: 0;
 }
 
-/* Hero 大图区域 */
+/* Hero 大图区域 1:1 */
 .hero-section {
   position: relative;
   width: 100%;
-  height: 778rpx;
+  height: 750rpx;
   overflow: hidden;
   box-shadow: 0 80rpx 160rpx -30rpx rgba(0, 0, 0, 0.05);
 }
 
 .hero-img {
-  width: auto;
-  height: 778rpx;
+  width: 100%;
+  height: 750rpx;
   filter: grayscale(20%);
 }
 

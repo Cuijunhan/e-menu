@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/home/home",
+    "pages/admin/index/index",
     "pages/index/index",
     "pages/cart/cart",
     "pages/orders/orders",
@@ -8,9 +9,14 @@
     "pages/random/random",
     "pages/reservation/reservation",
     "pages/reservation-detail/reservation-detail",
-    "pages/admin/index/index",
     "pages/admin/dishes/index",
-    "pages/admin/banners/index"
+    "pages/admin/banners/index",
+    "pages/admin/orders/index",
+    "pages/admin/members/index",
+    "pages/admin/ingredients/index",
+    "pages/admin/reservations/index",
+    "pages/profile-edit/index",
+    "pages/onboarding/index"
   ],
   "window": {
     "backgroundTextStyle": "light",

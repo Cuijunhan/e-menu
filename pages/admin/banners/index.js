@@ -1,14 +1,24 @@
 const api = require('../../../utils/api');
 
+const EMPTY_FORM = { image: '', title: '', sort_order: '0' };
+
 Page({
   data: {
     banners: [],
-    form: { image: '', title: '', sort_order: '0' },
+    editingId: null,
+    form: Object.assign({}, EMPTY_FORM),
+    // 上传预览
+    showPreview: false,
+    previewSrc: '',
+    pendingFile: null,
+    uploadingForEdit: false,
   },
 
   onShow() {
     this.loadBanners();
   },
+
+  goBack() { wx.navigateBack(); },
 
   async loadBanners() {
     try {
@@ -27,26 +37,63 @@ Page({
     this.setData({ form: Object.assign({}, this.data.form, { sort_order: e.detail.value }) });
   },
 
-  async uploadImage() {
+  // 选择图片 → 先弹出预览，确认后上传
+  chooseImage() {
     wx.chooseMedia({
       count: 1,
       mediaType: ['image'],
-      success: async (res) => {
+      success: (res) => {
         const tempFilePath = res.tempFiles[0].tempFilePath;
-        wx.showLoading({ title: '上传中...' });
-        try {
-          const ext = tempFilePath.split('.').pop();
-          const cloudPath = `banners/${Date.now()}.${ext}`;
-          const uploadRes = await wx.cloud.uploadFile({ cloudPath, filePath: tempFilePath });
-          this.setData({ form: Object.assign({}, this.data.form, { image: uploadRes.fileID }) });
-          wx.hideLoading();
-          wx.showToast({ title: '上传成功', icon: 'success' });
-        } catch (e) {
-          wx.hideLoading();
-          wx.showToast({ title: '上传失败', icon: 'error' });
-        }
+        const ext = tempFilePath.split('.').pop();
+        this.setData({
+          showPreview: true,
+          previewSrc: tempFilePath,
+          pendingFile: { path: tempFilePath, ext },
+        });
       },
     });
+  },
+
+  cancelPreview() {
+    this.setData({ showPreview: false, previewSrc: '', pendingFile: null });
+  },
+
+  async confirmPreview() {
+    const { pendingFile } = this.data;
+    if (!pendingFile) return;
+    this.setData({ showPreview: false });
+    wx.showLoading({ title: '上传中...' });
+    try {
+      const cloudPath = `banners/${Date.now()}.${pendingFile.ext}`;
+      const uploadRes = await wx.cloud.uploadFile({ cloudPath, filePath: pendingFile.path });
+      this.setData({
+        form: Object.assign({}, this.data.form, { image: uploadRes.fileID }),
+        pendingFile: null,
+        previewSrc: '',
+      });
+      wx.hideLoading();
+      wx.showToast({ title: '上传成功', icon: 'success' });
+    } catch (e) {
+      wx.hideLoading();
+      wx.showToast({ title: '上传失败', icon: 'error' });
+    }
+  },
+
+  // 编辑模式
+  editBanner(e) {
+    const banner = e.currentTarget.dataset.banner;
+    this.setData({
+      editingId: banner.id,
+      form: {
+        image: banner.image || '',
+        title: banner.title || '',
+        sort_order: String(banner.sort_order || '0'),
+      },
+    });
+  },
+
+  cancelEdit() {
+    this.setData({ editingId: null, form: Object.assign({}, EMPTY_FORM) });
   },
 
   async toggleBanner(e) {
@@ -59,31 +106,44 @@ Page({
     }
   },
 
-  async addBanner() {
-    const { form } = this.data;
+  async saveBanner() {
+    const { form, editingId } = this.data;
     if (!form.image) {
       wx.showToast({ title: '请选择图片', icon: 'none' });
       return;
     }
     wx.showLoading({ title: '提交中...' });
     try {
-      await api.adminAction('createBanner', {
-        banner: {
-          image: form.image,
-          title: form.title || '',
-          link: '',
-          sort_order: parseInt(form.sort_order) || 0,
-          is_active: true,
-          is_default: false,
-        },
-      });
+      if (editingId) {
+        await api.adminAction('updateBanner', {
+          id: editingId,
+          banner: {
+            image: form.image,
+            title: form.title || '',
+            sort_order: parseInt(form.sort_order) || 0,
+          },
+        });
+        wx.showToast({ title: '更新成功', icon: 'success' });
+        this.setData({ editingId: null });
+      } else {
+        await api.adminAction('createBanner', {
+          banner: {
+            image: form.image,
+            title: form.title || '',
+            link: '',
+            sort_order: parseInt(form.sort_order) || 0,
+            is_active: true,
+            is_default: false,
+          },
+        });
+        wx.showToast({ title: '新增成功', icon: 'success' });
+      }
       wx.hideLoading();
-      wx.showToast({ title: '新增成功', icon: 'success' });
-      this.setData({ form: { image: '', title: '', sort_order: '0' } });
+      this.setData({ form: Object.assign({}, EMPTY_FORM) });
       this.loadBanners();
     } catch (e) {
       wx.hideLoading();
-      wx.showToast({ title: '新增失败', icon: 'error' });
+      wx.showToast({ title: '操作失败', icon: 'error' });
     }
   },
 

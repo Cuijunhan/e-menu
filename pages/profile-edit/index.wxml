@@ -1,0 +1,84 @@
+<view class="page">
+  <view class="header">
+    <text class="back" bindtap="goBack">‹</text>
+    <text class="header-title">编辑资料</text>
+    <view style="width:80rpx;"></view>
+  </view>
+
+  <!-- 头像区域 -->
+  <view class="avatar-section" bindtap="chooseAvatar">
+    <view class="avatar-wrap">
+      <image wx:if="{{avatar}}" class="avatar-img" src="{{avatar}}" mode="aspectFill" />
+      <view wx:else class="avatar-placeholder">
+        <text class="avatar-letter">{{nickname ? nickname[0] : '?'}}</text>
+      </view>
+      <view class="avatar-edit-badge">
+        <text class="avatar-edit-icon">+</text>
+      </view>
+    </view>
+    <text class="avatar-hint">点击更换头像</text>
+  </view>
+
+  <!-- 个人信息 -->
+  <view class="form-section">
+    <text class="form-label">PROFILE</text>
+    <view class="form-card">
+      <view class="field">
+        <text class="field-label">昵称</text>
+        <input
+          class="field-input"
+          value="{{nickname}}"
+          bindinput="onNicknameInput"
+          placeholder="输入你的昵称"
+          maxlength="20"
+          confirm-type="done"
+        />
+      </view>
+    </view>
+  </view>
+
+  <!-- 家庭名称 -->
+  <view class="form-section" style="margin-top:40rpx;">
+    <text class="form-label">FAMILY</text>
+    <view class="form-card">
+      <view class="field">
+        <text class="field-label">家庭名称</text>
+        <input
+          wx:if="{{isAdmin}}"
+          class="field-input"
+          value="{{familyName}}"
+          bindinput="onFamilyNameInput"
+          placeholder="输入家庭名称"
+          maxlength="20"
+          confirm-type="done"
+        />
+        <text wx:else class="field-readonly">{{familyName}}</text>
+      </view>
+      <view wx:if="{{!isAdmin}}" class="field-hint-row">
+        <text class="field-hint">仅管理员可修改家庭名称</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 保存按钮 -->
+  <view class="save-wrap">
+    <view class="btn-save {{saving ? 'disabled' : ''}}" bindtap="save">保存</view>
+  </view>
+
+  <!-- 头像预览确认弹窗 -->
+  <view wx:if="{{showPreview}}" class="preview-modal" catchtap="">
+    <view class="preview-box">
+      <view class="preview-header">
+        <text class="preview-title">头像预览</text>
+        <text class="preview-close" bindtap="cancelPreview">×</text>
+      </view>
+      <view class="preview-avatar-wrap">
+        <image src="{{previewSrc}}" class="preview-avatar-img" mode="aspectFill" />
+      </view>
+      <view class="preview-actions">
+        <view class="btn-reselect" bindtap="chooseAvatar">重新选择</view>
+        <view class="btn-confirm" bindtap="confirmAvatar">使用此头像</view>
+      </view>
+    </view>
+  </view>
+</view>

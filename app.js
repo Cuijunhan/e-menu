@@ -1,11 +1,14 @@
 // app.js
-// ⚠️ 将 YOUR_ENV_ID 替换为你的云开发环境 ID（在微信开发者工具 → 云开发控制台中查看）
-const ENV_ID = 'YOUR_ENV_ID'
+const ENV_ID = 'cloud1-6g24anub992426c4'
 
 App({
   globalData: {
     openid: '',
+    familyId: '',
+    familyName: '',
+    role: '',       // 'admin' | 'member'
     isAdmin: false,
+    nickname: '',
     cart: [],
   },
 
@@ -14,28 +17,43 @@ App({
       console.error('请使用 2.2.3 或以上基础库')
       return
     }
-    wx.cloud.init({
-      env: ENV_ID,
-      traceUser: true,
-    })
-    this._fetchOpenid()
+    wx.cloud.init({ env: ENV_ID, traceUser: true })
+    this._initUser()
   },
 
-  _fetchOpenid() {
-    wx.cloud.callFunction({
-      name: 'admin',
-      data: { action: 'getOpenid' },
-      success: res => {
-        const openid = res.result && res.result.openid
-        if (openid) {
-          this.globalData.openid = openid
-          wx.setStorageSync('openid', openid)
-        }
-      },
-      fail: err => {
-        console.error('获取 openid 失败', err)
-      },
-    })
+  async _initUser() {
+    try {
+      // 获取 openid
+      const openidRes = await wx.cloud.callFunction({
+        name: 'user',
+        data: { action: 'getProfile' },
+      })
+      const profile = openidRes.result
+
+      if (!profile) {
+        // 新用户，无记录 → 跳引导页
+        wx.reLaunch({ url: '/pages/onboarding/index' })
+        return
+      }
+
+      if (!profile.family_id) {
+        // 有用户记录但还未加入家庭 → 跳引导页
+        wx.reLaunch({ url: '/pages/onboarding/index' })
+        return
+      }
+
+      // 正常用户，写入全局
+      this.globalData.openid = profile.openid || ''
+      this.globalData.familyId = profile.family_id
+      this.globalData.familyName = profile.family ? profile.family.name : ''
+      this.globalData.role = profile.role
+      this.globalData.isAdmin = profile.role === 'admin'
+      this.globalData.nickname = profile.nickname || ''
+
+    } catch (e) {
+      console.error('初始化用户失败', e)
+      // 网络失败时不强制跳转，允许继续使用（本地调试场景）
+    }
   },
 
   addToCart(dish) {

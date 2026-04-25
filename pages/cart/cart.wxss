@@ -90,6 +90,12 @@
   flex-shrink: 0;
 }
 
+.item-img-src {
+  width: 200rpx;
+  height: 240rpx;
+  display: block;
+}
+
 .item-emoji {
   font-size: 80rpx;
   opacity: 0.8;

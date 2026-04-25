@@ -1,0 +1,71 @@
+<view class="page">
+  <view class="header">
+    <text class="header-title">MEMBERS</text>
+  </view>
+
+  <scroll-view class="content" scroll-y>
+
+    <!-- 邀请码区块 -->
+    <text class="section-label">INVITE CODE</text>
+    <view class="invite-card">
+      <view class="invite-top">
+        <view>
+          <text class="invite-label">{{familyName}}</text>
+          <text class="invite-code">{{inviteCode}}</text>
+        </view>
+        <view class="invite-actions">
+          <view class="icon-btn" bindtap="copyInviteCode">
+            <text class="icon-btn-text">复制</text>
+          </view>
+          <view class="icon-btn ghost" bindtap="refreshInviteCode">
+            <text class="icon-btn-text">刷新</text>
+          </view>
+        </view>
+      </view>
+      <text class="invite-hint">分享邀请码，成员可凭此加入家庭</text>
+    </view>
+
+    <!-- 成员列表 -->
+    <text class="section-label" style="margin-top:48rpx;">MEMBERS</text>
+
+    <view wx:if="{{loading}}" class="empty-tip">加载中...</view>
+
+    <view wx:for="{{members}}" wx:key="id" class="member-card">
+      <view class="member-info">
+        <view class="member-avatar">
+          <text class="avatar-text">{{item.nickname ? item.nickname[0] : '?'}}</text>
+        </view>
+        <view>
+          <text class="member-name">{{item.nickname || '未命名'}}</text>
+          <view class="member-meta">
+            <view class="role-badge {{item.role === 'admin' ? 'admin' : 'member'}}">
+              <text>{{item.role === 'admin' ? 'ADMIN' : 'MEMBER'}}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class="member-btns" wx:if="{{item.openid !== selfOpenid}}">
+        <view class="action-btn"
+          data-id="{{item.id}}"
+          data-role="{{item.role}}"
+          data-nickname="{{item.nickname}}"
+          bindtap="toggleRole">
+          <text>{{item.role === 'admin' ? '降级' : '升级'}}</text>
+        </view>
+        <view class="action-btn danger"
+          data-id="{{item.id}}"
+          data-nickname="{{item.nickname}}"
+          bindtap="kickMember">
+          <text>移出</text>
+        </view>
+      </view>
+      <view class="self-tag" wx:else>
+        <text>（我）</text>
+      </view>
+    </view>
+
+    <view wx:if="{{!loading && members.length === 0}}" class="empty-tip">暂无成员</view>
+
+    <view style="height: 120rpx;"></view>
+  </scroll-view>
+</view>

@@ -1,0 +1,226 @@
+<view class="page">
+  <view class="header">
+    <text class="back" bindtap="goBack">‹</text>
+    <text class="header-title">预约管理</text>
+    <view style="width:80rpx;"></view>
+  </view>
+
+  <scroll-view class="content" scroll-y>
+    <text class="section-label">RESERVATIONS ({{reservations.length}})</text>
+
+    <view class="resv-card" wx:for="{{reservations}}" wx:key="id">
+      <view class="resv-header">
+        <view class="resv-user">
+          <view class="user-avatar"><text class="user-avatar-text">{{item.user_initial}}</text></view>
+          <text class="user-name">{{item.user_nickname}}</text>
+        </view>
+        <view class="status-tag {{item.status === '已处理' ? 'done' : 'pending'}}">{{item.status}}</view>
+      </view>
+
+      <text class="resv-dish-name">{{item.dish_name}}</text>
+      <text wx:if="{{item.link}}" class="resv-link">{{item.link}}</text>
+      <text wx:if="{{item.note}}" class="resv-note">备注：{{item.note}}</text>
+
+      <view class="resv-actions" wx:if="{{item.status !== '已处理'}}">
+        <view class="btn-action add-menu" bindtap="handleReservation" data-item="{{item}}">加入菜单</view>
+        <view class="btn-action mark-done" bindtap="markProcessed" data-id="{{item.id}}">标记已处理</view>
+        <view class="btn-action delete" bindtap="deleteReservation" data-id="{{item.id}}">删除</view>
+      </view>
+      <view class="resv-actions" wx:else>
+        <view class="btn-action delete" bindtap="deleteReservation" data-id="{{item.id}}">删除</view>
+      </view>
+    </view>
+
+    <view class="empty" wx:if="{{reservations.length === 0}}"><text>暂无预约</text></view>
+
+    <view style="height:120rpx;"></view>
+  </scroll-view>
+
+  <!-- 加入菜单 弹窗 -->
+  <view wx:if="{{showForm}}" class="form-modal" catchtap="">
+    <view class="form-panel">
+      <view class="form-panel-header">
+        <text class="form-panel-title">加入菜单</text>
+        <text class="form-panel-close" bindtap="cancelForm">×</text>
+      </view>
+
+      <scroll-view class="form-panel-scroll" scroll-y>
+        <view class="form-card">
+          <!-- 类型 -->
+          <picker mode="selector" range="{{typeOptions}}" range-key="label" value="{{typeIndex}}" bindchange="onTypeChange">
+            <view class="field">
+              <text class="field-label">类型</text>
+              <text class="field-value">{{typeOptions[typeIndex].label}}</text>
+            </view>
+          </picker>
+          <view class="divider"></view>
+          <!-- 分类 -->
+          <picker mode="selector" range="{{categoryNames}}" value="{{categoryIndex}}" bindchange="onCategoryChange">
+            <view class="field">
+              <text class="field-label">分类 *</text>
+              <text class="field-value {{form.category_id ? '' : 'placeholder'}}">
+                {{categoryNames[categoryIndex] || '请先选择类型'}}
+              </text>
+            </view>
+          </picker>
+          <view class="divider"></view>
+          <view class="field">
+            <text class="field-label">菜名 *</text>
+            <input class="field-input" placeholder="菜品名称" value="{{form.name}}" bindinput="onInput" data-field="name" />
+          </view>
+          <view class="divider"></view>
+          <view class="field">
+            <text class="field-label">价格 *</text>
+            <input class="field-input" placeholder="0.00" value="{{form.price}}" bindinput="onInput" data-field="price" type="digit" />
+          </view>
+          <view class="divider"></view>
+          <view class="field">
+            <text class="field-label">简介</text>
+            <input class="field-input" placeholder="一句话介绍" value="{{form.description}}" bindinput="onInput" data-field="description" />
+          </view>
+          <view class="divider"></view>
+          <!-- 图片 -->
+          <view class="field" bindtap="chooseImage">
+            <text class="field-label">图片</text>
+            <text class="field-value {{form.image ? '' : 'placeholder'}}">{{form.image ? '已选择 ✓' : '选择图片'}}</text>
+          </view>
+          <image wx:if="{{form.image}}" src="{{form.image}}" class="preview-img" mode="aspectFill" />
+          <view class="divider"></view>
+          <!-- 食材 -->
+          <view class="ing-section">
+            <view class="ing-section-header">
+              <text class="field-label">食材</text>
+              <view class="ing-add-btn" bindtap="openIngPicker">+ 添加食材</view>
+            </view>
+            <view class="ing-tag-list" wx:if="{{form.ingredient_list.length > 0}}">
+              <view class="ing-tag" wx:for="{{form.ingredient_list}}" wx:key="id">
+                <text class="ing-tag-name">{{item.name}}</text>
+                <text class="ing-tag-amount">{{item.amount}}{{item.unit}}</text>
+                <text class="ing-tag-del" bindtap="removeIng" data-index="{{index}}">×</text>
+              </view>
+            </view>
+            <text class="ing-empty" wx:else>暂未添加食材</text>
+          </view>
+          <view class="divider"></view>
+          <view class="field field-textarea">
+            <text class="field-label">做法步骤</text>
+            <textarea class="field-input textarea-input" placeholder="每行一步" value="{{form.instructions}}" bindinput="onInput" data-field="instructions" auto-height />
+          </view>
+          <view class="divider"></view>
+          <view class="field field-textarea">
+            <text class="field-label">注意事项</text>
+            <textarea class="field-input textarea-input" placeholder="烹饪注意事项" value="{{form.notes}}" bindinput="onInput" data-field="notes" auto-height />
+          </view>
+        </view>
+        <view style="height:32rpx;"></view>
+      </scroll-view>
+
+      <view class="form-panel-footer">
+        <view class="btn-cancel" bindtap="cancelForm">取消</view>
+        <view class="btn-submit" bindtap="submitDish">确认加入菜单</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 图片预览确认弹窗 -->
+  <view wx:if="{{showImgPreview}}" class="img-preview-modal" catchtap="">
+    <view class="img-preview-panel" catchtap="">
+      <view class="img-preview-header">
+        <text class="img-preview-title">确认使用此图片</text>
+        <text class="img-preview-close" bindtap="cancelImgPreview">×</text>
+      </view>
+      <view class="img-preview-frame">
+        <image src="{{imgPreviewSrc}}" class="img-preview-img" mode="aspectFill" />
+      </view>
+      <view class="img-preview-footer">
+        <view class="btn-cancel" bindtap="cancelImgPreview">重新选择</view>
+        <view class="btn-submit" bindtap="confirmImg">确认使用</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 食材选择器弹窗 -->
+  <view wx:if="{{showIngPicker}}" class="ing-modal" catchtap="">
+    <view class="ing-panel" catchtap="">
+
+      <!-- 步骤1：搜索 & 列表 -->
+      <view wx:if="{{ingStep === 'list'}}">
+        <view class="ing-panel-header">
+          <view style="width:80rpx;"></view>
+          <text class="ing-panel-title">选择食材</text>
+          <text class="ing-panel-close" bindtap="closeIngPicker">×</text>
+        </view>
+        <view class="ing-search-wrap">
+          <input class="ing-search" placeholder="搜索食材名称..." value="{{ingSearch}}" bindinput="onIngSearch" />
+        </view>
+        <scroll-view class="ing-pick-scroll" scroll-y>
+          <view
+            wx:for="{{allIngredients}}"
+            wx:key="id"
+            wx:if="{{!ingSearch || item.name.indexOf(ingSearch) !== -1}}"
+            class="ing-pick-row"
+            bindtap="selectIng"
+            data-ing="{{item}}"
+          >
+            <text class="ing-pick-name">{{item.name}}</text>
+            <text class="ing-pick-unit" wx:if="{{item.unit}}">{{item.unit}}</text>
+          </view>
+          <view class="ing-pick-empty" wx:if="{{allIngredients.length === 0}}">
+            <text>食材库为空，请先在食材数据库中创建</text>
+          </view>
+        </scroll-view>
+        <view class="ing-new-row" bindtap="showNewIngForm">
+          <text class="ing-new-text">+ 创建新食材并添加</text>
+        </view>
+      </view>
+
+      <!-- 步骤2：输入用量 -->
+      <view wx:if="{{ingStep === 'amount'}}">
+        <view class="ing-panel-header">
+          <text class="ing-back-btn" bindtap="backToList">‹ 返回</text>
+          <text class="ing-panel-title">{{ingPending.name}}</text>
+          <text class="ing-panel-close" bindtap="closeIngPicker">×</text>
+        </view>
+        <view class="ing-amount-body">
+          <text class="ing-amount-label">请输入用量</text>
+          <view class="ing-amount-row">
+            <input class="ing-amount-input" placeholder="数量" type="digit" value="{{ingAmount}}" bindinput="onIngAmountInput" />
+            <picker mode="selector" range="{{ingUnitOptions}}" value="{{ingUnitIndex}}" bindchange="onIngUnitChange">
+              <view class="ing-unit-picker">
+                <text>{{ingUnitOptions[ingUnitIndex]}}</text>
+                <text style="color:#acb3b4;margin-left:8rpx;">⌄</text>
+              </view>
+            </picker>
+          </view>
+        </view>
+        <view class="ing-confirm-btn" bindtap="confirmAddIng">确认添加</view>
+      </view>
+
+      <!-- 步骤3：创建新食材 -->
+      <view wx:if="{{ingStep === 'new'}}">
+        <view class="ing-panel-header">
+          <text class="ing-back-btn" bindtap="backToList">‹ 返回</text>
+          <text class="ing-panel-title">创建食材</text>
+          <text class="ing-panel-close" bindtap="closeIngPicker">×</text>
+        </view>
+        <view class="ing-amount-body">
+          <view class="ing-new-form-row">
+            <text class="ing-new-form-label">名称</text>
+            <input class="ing-new-form-input" placeholder="食材名称" value="{{newIngName}}" bindinput="onNewIngNameInput" />
+          </view>
+          <view class="ing-new-form-row" style="margin-top:24rpx;">
+            <text class="ing-new-form-label">默认单位</text>
+            <picker mode="selector" range="{{ingUnitOptions}}" value="{{newIngUnitIndex}}" bindchange="onNewIngUnitChange">
+              <view class="ing-unit-picker">
+                <text>{{ingUnitOptions[newIngUnitIndex]}}</text>
+                <text style="color:#acb3b4;margin-left:8rpx;">⌄</text>
+              </view>
+            </picker>
+          </view>
+        </view>
+        <view class="ing-confirm-btn" bindtap="createAndAddIng">创建并继续设置用量</view>
+      </view>
+
+    </view>
+  </view>
+</view>

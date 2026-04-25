@@ -1,0 +1,50 @@
+.page { min-height: 100vh; background: #f9f9f9; width: 100%; overflow-x: hidden; }
+
+.header {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: 128rpx; padding-top: 72rpx;
+  background: rgba(249,249,249,0.9); backdrop-filter: blur(20rpx); z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding-left: 32rpx; padding-right: 48rpx;
+}
+.back { font-size: 64rpx; color: #5f5e5e; line-height: 1; width: 80rpx; }
+.header-title { font-size: 32rpx; font-style: italic; letter-spacing: 4rpx; color: #2d3435; }
+
+.content { width: 100%; box-sizing: border-box; padding: 160rpx 32rpx 0; }
+
+.section-label {
+  display: block; font-size: 20rpx; letter-spacing: 6rpx;
+  color: #acb3b4; margin-bottom: 16rpx; padding-left: 4rpx;
+}
+
+.ing-list { display: flex; flex-direction: column; gap: 8rpx; }
+
+.ing-row {
+  background: #fff; border-radius: 12rpx; padding: 28rpx 32rpx;
+  display: flex; align-items: center;
+  box-shadow: 0 2rpx 12rpx rgba(45,52,53,0.04);
+}
+.ing-info { flex: 1; }
+.ing-name { display: block; font-size: 30rpx; color: #2d3435; }
+.ing-unit { display: block; font-size: 20rpx; color: #acb3b4; margin-top: 4rpx; }
+
+.btn-del { font-size: 22rpx; color: #c0392b; background: #fdf0ef; padding: 10rpx 20rpx; border-radius: 8rpx; }
+
+.empty { text-align: center; color: #acb3b4; padding: 60rpx 0; font-size: 26rpx; font-style: italic; }
+
+.form-card {
+  background: #fff; border-radius: 16rpx;
+  overflow: hidden; box-shadow: 0 4rpx 24rpx rgba(45,52,53,0.04);
+}
+.field { display: flex; align-items: center; padding: 32rpx 36rpx; min-height: 100rpx; }
+.field-label { font-size: 26rpx; color: #757c7d; width: 160rpx; flex-shrink: 0; }
+.field-input { flex: 1; font-size: 28rpx; color: #2d3435; text-align: right; }
+.field-value { flex: 1; font-size: 28rpx; color: #2d3435; text-align: right; }
+.divider { height: 1rpx; background: #f2f4f4; margin: 0 36rpx; }
+
+.btn-row { margin-top: 24rpx; }
+.btn-primary {
+  background: #2d3435; color: #f9f9f9;
+  text-align: center; padding: 36rpx; border-radius: 16rpx;
+  font-size: 28rpx; letter-spacing: 4rpx;
+}

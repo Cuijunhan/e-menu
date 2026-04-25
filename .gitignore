@@ -14,3 +14,7 @@ project.private.config.json
 
 # UI参考文件（文件名过长）
 ref_ui/
+
+# 云函数依赖（不入库，部署时云端自动安装）
+cloudfunctions/**/node_modules/
+cloudfunctions/**/package-lock.json

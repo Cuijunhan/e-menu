@@ -1,17 +1,90 @@
-<view class="container">
-  <view class="menu-item" bindtap="goToDishes">
-    <text class="icon">🍽</text>
-    <text class="label">菜品管理</text>
-    <text class="arrow">›</text>
+<view class="page">
+  <view class="header">
+    <text class="header-title">ADMIN</text>
   </view>
-  <view class="menu-item" bindtap="goToBanners">
-    <text class="icon">🖼</text>
-    <text class="label">轮播图管理</text>
-    <text class="arrow">›</text>
-  </view>
-  <view class="menu-item init-btn" bindtap="initData">
-    <text class="icon">⚙</text>
-    <text class="label">初始化默认数据</text>
-    <text class="arrow">›</text>
-  </view>
+
+  <scroll-view class="content" scroll-y>
+    <text class="section-label">MANAGE</text>
+
+    <view class="nav-card" bindtap="goToDishes">
+      <view class="nav-left">
+        <text class="nav-icon">🍽</text>
+        <view>
+          <text class="nav-title">菜品管理</text>
+          <text class="nav-desc">添加、编辑、删除菜品</text>
+        </view>
+      </view>
+      <text class="nav-arrow">›</text>
+    </view>
+
+    <view class="nav-card" bindtap="goToBanners">
+      <view class="nav-left">
+        <text class="nav-icon">🖼</text>
+        <view>
+          <text class="nav-title">轮播图管理</text>
+          <text class="nav-desc">主页轮播图上传与排序</text>
+        </view>
+      </view>
+      <text class="nav-arrow">›</text>
+    </view>
+
+    <view class="nav-card" bindtap="goToOrders">
+      <view class="nav-left">
+        <text class="nav-icon">📋</text>
+        <view>
+          <text class="nav-title">订单管理</text>
+          <text class="nav-desc">查看所有用户订单</text>
+        </view>
+      </view>
+      <text class="nav-arrow">›</text>
+    </view>
+
+    <view class="nav-card" bindtap="goToIngredients">
+      <view class="nav-left">
+        <text class="nav-icon">🥬</text>
+        <view>
+          <text class="nav-title">食材数据库</text>
+          <text class="nav-desc">管理公共食材库</text>
+        </view>
+      </view>
+      <text class="nav-arrow">›</text>
+    </view>
+
+    <view class="nav-card" bindtap="goToReservations">
+      <view class="nav-left">
+        <text class="nav-icon">📅</text>
+        <view>
+          <text class="nav-title">预约管理</text>
+          <text class="nav-desc">查看并处理用户预约请求</text>
+        </view>
+      </view>
+      <text class="nav-arrow">›</text>
+    </view>
+
+    <view class="nav-card" bindtap="goToMembers">
+      <view class="nav-left">
+        <text class="nav-icon">👥</text>
+        <view>
+          <text class="nav-title">成员管理</text>
+          <text class="nav-desc">邀请码、角色设置、移出成员</text>
+        </view>
+      </view>
+      <text class="nav-arrow">›</text>
+    </view>
+
+    <text class="section-label" style="margin-top:48rpx;">SYSTEM</text>
+
+    <view class="nav-card danger" bindtap="initData">
+      <view class="nav-left">
+        <text class="nav-icon">⚙</text>
+        <view>
+          <text class="nav-title">初始化默认数据</text>
+          <text class="nav-desc">写入默认分类与菜品（已存在则跳过）</text>
+        </view>
+      </view>
+      <text class="nav-arrow">›</text>
+    </view>
+
+    <view style="height: 120rpx;"></view>
+  </scroll-view>
 </view>

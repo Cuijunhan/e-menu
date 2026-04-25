@@ -3,60 +3,119 @@
 .page {
   background: #f9f9f9;
   min-height: 100vh;
-  padding-top: 50rpx;
+  padding-top: 80rpx;
   padding-bottom: 160rpx;
 }
 
 /* 用户信息区 */
 .user-section {
-  padding: 90rpx 48rpx 64rpx;
+  padding: 72rpx 48rpx 48rpx;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
 }
 
 .avatar {
-  width: 192rpx;
-  height: 192rpx;
+  width: 160rpx;
+  height: 160rpx;
   border-radius: 50%;
-  background: #f2f4f4;
+  background: #2d3435;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 48rpx;
-  border: 2rpx solid rgba(172, 179, 180, 0.1);
-  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.02);
+  margin-bottom: 40rpx;
 }
 
 .avatar-img {
-  width: 100%;
-  height: 100%;
+  width: 160rpx;
+  height: 160rpx;
   border-radius: 50%;
+  display: block;
 }
 
-.avatar-emoji {
-  font-size: 96rpx;
-  opacity: 0.8;
+.avatar-text {
+  font-size: 72rpx;
+  color: #ffffff;
+  font-weight: 300;
 }
 
 .user-info {
   display: flex;
   flex-direction: column;
-  gap: 8rpx;
+  gap: 16rpx;
 }
 
 .user-name {
-  font-size: 80rpx;
+  font-size: 72rpx;
   font-weight: 300;
   letter-spacing: -2rpx;
   color: #2d3435;
   line-height: 1.2;
 }
 
-.user-label {
+.family-row {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.family-label {
+  font-size: 24rpx;
+  color: #acb3b4;
+  letter-spacing: 2rpx;
+}
+
+.role-badge {
+  padding: 4rpx 16rpx;
+  border-radius: 8rpx;
+  font-size: 18rpx;
+  letter-spacing: 2rpx;
+}
+
+.role-badge.admin {
+  background: #2d3435;
+  color: #ffffff;
+}
+
+.role-badge.member {
+  background: #eef0f0;
+  color: #acb3b4;
+}
+
+/* 邀请码 */
+.invite-section {
+  margin: 0 48rpx 48rpx;
+  background: #ffffff;
+  border-radius: 20rpx;
+  padding: 36rpx 40rpx;
+  box-shadow: 0 4rpx 24rpx rgba(45,52,53,0.04);
+}
+
+.invite-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.invite-hint {
+  display: block;
   font-size: 20rpx;
-  letter-spacing: 8rpx;
-  color: rgba(89, 96, 97, 0.6);
+  color: #acb3b4;
+  letter-spacing: 4rpx;
+  margin-bottom: 8rpx;
+}
+
+.invite-code {
+  display: block;
+  font-size: 56rpx;
+  font-weight: 300;
+  letter-spacing: 10rpx;
+  color: #2d3435;
+}
+
+.invite-icon {
+  font-size: 48rpx;
+  color: #acb3b4;
 }
 
 /* 统计卡片 */
@@ -154,83 +213,7 @@
   color: rgba(172, 179, 180, 0.4);
 }
 
-/* 提示信息 */
-.toast-msg {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: rgba(45, 52, 53, 0.9);
-  color: #fff;
-  padding: 32rpx 64rpx;
-  border-radius: 16rpx;
-  font-size: 28rpx;
-  z-index: 1000;
-}
-
-/* 头像按钮 */
-.avatar-btn {
-  padding: 0;
-  margin: 0;
-  background: transparent;
-  border: none;
-  margin-bottom: 48rpx;
-}
-
-.avatar-btn::after {
-  border: none;
-}
-
-/* 昵称输入框 */
-.user-name-input {
-  font-size: 56rpx;
-  font-weight: 300;
-  color: #2d3435;
-  line-height: 1.2;
-  margin-bottom: 16rpx;
-}
-
-/* 授权引导页 */
-.auth-guide {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: #f9f9f9;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-}
-
-.auth-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 48rpx;
-}
-
-.auth-title {
-  font-size: 64rpx;
-  font-weight: 300;
-  color: #2d3435;
-}
-
-.auth-desc {
-  font-size: 28rpx;
-  color: #757c7d;
-}
-
-.auth-btn {
-  background: #5f5e5e;
-  color: #faf7f6;
-  padding: 32rpx 96rpx;
-  border-radius: 48rpx;
-  font-size: 28rpx;
-  border: none;
-}
-
-.auth-btn::after {
-  border: none;
+/* 危险操作 */
+.danger-text {
+  color: #e74c3c;
 }

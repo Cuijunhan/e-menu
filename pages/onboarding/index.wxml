@@ -1,0 +1,56 @@
+<view class="page">
+  <!-- 欢迎界面 -->
+  <view class="hero">
+    <text class="logo">🍽</text>
+    <text class="title">家庭点餐</text>
+    <text class="subtitle">A private dining experience</text>
+  </view>
+
+  <!-- 步骤：选择操作 -->
+  <view wx:if="{{step === 'choose'}}" class="card">
+    <text class="card-title">加入或创建</text>
+    <text class="card-desc">你需要加入一个家庭才能开始使用</text>
+    <view class="btn-primary" bindtap="goCreate">创建家庭</view>
+    <view class="btn-secondary" bindtap="goJoin">用邀请码加入</view>
+  </view>
+
+  <!-- 步骤：创建家庭 -->
+  <view wx:if="{{step === 'create'}}" class="card">
+    <text class="card-title">创建你的家庭</text>
+    <view class="field">
+      <text class="field-label">家庭名称</text>
+      <input class="field-input" placeholder="如：崔家厨房" value="{{form.family_name}}" bindinput="onInput" data-field="family_name" maxlength="20" />
+    </view>
+    <view class="divider"></view>
+    <view class="field">
+      <text class="field-label">你的昵称</text>
+      <input class="field-input" placeholder="如：爸爸" value="{{form.nickname}}" bindinput="onInput" data-field="nickname" maxlength="10" />
+    </view>
+    <view class="tip">创建后你将成为管理员，可邀请家人加入</view>
+    <view class="btn-primary" bindtap="submitCreate">创建并进入</view>
+    <view class="btn-back" bindtap="goBack">返回</view>
+  </view>
+
+  <!-- 步骤：加入家庭 -->
+  <view wx:if="{{step === 'join'}}" class="card">
+    <text class="card-title">加入家庭</text>
+    <view class="field">
+      <text class="field-label">邀请码</text>
+      <input class="field-input code-input" placeholder="输入6位邀请码" value="{{form.invite_code}}" bindinput="onInput" data-field="invite_code" maxlength="6" />
+    </view>
+    <view class="divider"></view>
+    <view class="field">
+      <text class="field-label">你的昵称</text>
+      <input class="field-input" placeholder="如：妈妈" value="{{form.nickname}}" bindinput="onInput" data-field="nickname" maxlength="10" />
+    </view>
+    <view class="btn-primary" bindtap="submitJoin">加入家庭</view>
+    <view class="btn-back" bindtap="goBack">返回</view>
+  </view>
+
+  <!-- 加载中 -->
+  <view wx:if="{{loading}}" class="loading-mask">
+    <view class="loading-box">
+      <text class="loading-text">请稍候...</text>
+    </view>
+  </view>
+</view>

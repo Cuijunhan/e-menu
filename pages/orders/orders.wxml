@@ -23,7 +23,7 @@
     <view wx:for="{{orders}}" wx:key="id" class="order-card">
       <!-- 订单头部 -->
       <view class="order-header" bindtap="toggleOrder" data-id="{{item.id}}">
-        <text class="order-id">订单 #{{item.id}}</text>
+        <text class="order-id">订单 #{{item.display_id}}</text>
         <view class="header-right">
           <view class="order-status {{item.status === '已完成' ? 'done' : 'pending'}}">
             {{item.status}}
